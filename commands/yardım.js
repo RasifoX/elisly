@@ -43,7 +43,7 @@ module.exports = ({
 
     const emojis = ["⏪", "◀️", "▶️", "⏩", "🗑️"];
     let currentPage = 1;
-    
+
     const firstMessage = await message.reply("komutu özelden devam ettirmek istiyorsan 🇩, eğer buradan devam ettirmek istiyorsan 🇧 emojisine tıkla.");
     await firstMessage.react("🇩");
     await firstMessage.react("🇧");
@@ -88,7 +88,7 @@ module.exports = ({
     firstCollector.on("collect", async(reaction) => {
       if(reaction.emoji.name === "🇩") {
         const helpMessage = await message.author.send(formatPage(pages[0]));
-        
+
         for(let i = 0; i < emojis.length; i++) {
           await helpMessage.react(emojis[i]);
         }
