@@ -1,0 +1,33 @@
+{
+  "name": "elisly",
+  "version": "1.0.0",
+  "description": "Elisly her sunucuya özel olarak tasarlanan güçlendirilmiş bir Discord botudur.",
+  "main": "./app.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "bufferutil": "^4.0.3",
+    "discord.js": "^12.5.1",
+    "discord.js-light": "^3.5.2",
+    "erlpack": "github:discord/erlpack",
+    "mongodb": "^3.6.4",
+    "utf-8-validate": "^5.0.4",
+    "zlib-sync": "^0.1.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acarkh/elisly.git"
+  },
+  "keywords": [
+    "elisly",
+    "discord",
+    "nodejs"
+  ],
+  "author": "acarkh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/acarkh/elisly/issues"
+  },
+  "homepage": "https://github.com/acarkh/elisly#readme"
+}
