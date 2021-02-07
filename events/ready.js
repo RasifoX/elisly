@@ -1,6 +1,6 @@
 const settings = require("../settings.js");
 
-module.exports = (async(client) => {
+module.exports = (async(client, db) => {
   await client.user.setPresence({
     activity: {
       name: `${settings.prefix}yardım | ${client.guilds.cache.size} sunucu`
@@ -11,7 +11,7 @@ module.exports = (async(client) => {
   console.log("Presence is setted.");
 
   const users = db.collection("users");
-  const usersData = await db.find({$collection: ((d) => JSON.stringify(d) !== "{}")}).then((d) => d.toArray());
+  const usersData = await users.find({$cooldown: ((d) => JSON.stringify(d) !== "{}")}).toArray();
 
   if(usersData.length !== 0) {
     usersData.forEach((userData) => {
@@ -21,11 +21,13 @@ module.exports = (async(client) => {
 
         setTimeout(async() => {
           delete userData.cooldowns[commandName];
-          await userData.save();
+          await users.updateOne({id: userData.id}, {$set: userData});
         }, timeout);
       });
     });
   }
+
+  console.log("Cooldowns is registered.");
 
   console.log("Bot is ready.");
 });

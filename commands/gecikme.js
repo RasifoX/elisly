@@ -4,4 +4,4 @@ module.exports = ({
   execute: (async(client, db, message, args) => {
     await message.reply(`${client.ws.ping.toFixed(2)} milisaniye gecikme süresine sahibim.`);
   })
-})
+});

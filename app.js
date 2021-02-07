@@ -1,5 +1,6 @@
 const Discord = require("discord.js-light");
 const {MongoClient} = require("mongodb");
+const fs = require("fs");
 
 const settings = require("./settings.js");
 const client = new Discord.Client({
@@ -8,15 +9,15 @@ const client = new Discord.Client({
   cacheGuilds: false
 });
 
-client.commands = new Discord.Client();
+client.commands = new Discord.Collection();
 
 MongoClient.connect(settings.mongoURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}, async(error, client) => {
+}, async(error, databaseClient) => {
   if(error) throw error;
 
-  const db = client.db("elisly");
+  const db = databaseClient.db("elisly");
 
   fs.readdir("./events", async(error, files) => {
     if(error) throw error;
@@ -27,8 +28,8 @@ MongoClient.connect(settings.mongoURL, {
       const eventName = file.slice(0, -3);
       const event = require(`./events/${file}`);
 
-      client.on(eventName, async() => {
-        await event(client, db, arguments);
+      client.on(eventName, async(...args) => {
+        await event(client, db, ...args);
       });
 
       console.log(`${eventName} event is binded.`);
@@ -42,7 +43,7 @@ MongoClient.connect(settings.mongoURL, {
     for(let i = 0; i < filesLength; i++) {
       const file = files[i];
       const commandName = file.slice(0, -3);
-      const command = require(`./events/${file}`);
+      const command = require(`./commands/${file}`);
 
       client.commands.set(commandName, command);
 
