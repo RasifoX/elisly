@@ -6,7 +6,8 @@ module.exports = ({
   execute: (async(client, db, message, args) => {
     const categories = ({
       genel: "Genel komutlar",
-      bilgilendirme: "Bilgilendirme komutları"
+      bilgilendirme: "Bilgilendirme komutları",
+      seviye: "Seviye komutları"
     });
 
     const commands = {};
