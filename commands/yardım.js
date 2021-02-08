@@ -4,6 +4,11 @@ module.exports = ({
   category: "genel",
   cooldown: 5,
   execute: (async(client, db, message, args) => {
+    const categories = ({
+      genel: "Genel komutlar",
+      bilgilendirme: "Bilgilendirme komutları"
+    });
+
     const commands = {};
     const commandKeys = client.commands.keyArray();
     let maxLength = 0;
@@ -31,7 +36,7 @@ module.exports = ({
       const category = Object.values(commands)[i];
       const categoryLength = category.length;
 
-      page.push(Object.keys(commands)[i]);
+      page.push(`${categories[Object.keys(commands)[i]]}\n`);
 
       for(let a = 0; a < categoryLength; a++) {
         const commandName = category[a];
@@ -58,6 +63,8 @@ module.exports = ({
     });
 
     const handleReactions = (async(helpMessage, collector, reaction) => {
+      await reaction.users.remove(message.author.id);
+
       if(reaction.emoji.name === emojis[0] && currentPage !== 1) {
         currentPage = 1;
       } else if(reaction.emoji.name === emojis[1] && currentPage !== 1) {
@@ -86,6 +93,8 @@ module.exports = ({
     });
 
     firstCollector.on("collect", async(reaction) => {
+      await reaction.users.remove(message.author.id);
+
       if(reaction.emoji.name === "🇩") {
         const helpMessage = await message.author.send(formatPage(pages[0]));
 
