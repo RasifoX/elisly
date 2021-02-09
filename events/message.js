@@ -20,6 +20,22 @@ module.exports = (async(client, db, message) => {
     });
   }
 
+  const guilds = db.collection("guilds");
+  const guildData = await users.findOne({id: message.guild.id});
+
+  if(!guildData) {
+    await guilds.insertOne({
+      id: message.guild.id,
+      levelRanks: {},
+      moderatorRoles: [],
+      logChannel: "",
+      modlogChannel: "",
+      twitchChannel: "",
+      youtubeChannel: "",
+      dliveChannel: ""
+    });
+  }
+
   await levelingMiddleware(client, db, message);
 
   const c = message.content.slice(settings.prefix.length).split(" ")[0];
@@ -35,7 +51,7 @@ module.exports = (async(client, db, message) => {
     try {
       await cooldownMiddleware(client, db, message, command, commandName, args);
     } catch(error) {
-      await message.reply(`bota bir hata oluştu, lütfen geliştiriciye ulaş: ${error.name}`);
+      await message.reply(`botta bir hata oluştu, lütfen geliştiriciye ulaş: ${error.name}`);
       console.log(error);
     }
   }
