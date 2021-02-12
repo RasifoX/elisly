@@ -8,7 +8,8 @@ module.exports = ({
     const categories = ({
       genel: "Genel komutlar",
       bilgilendirme: "Bilgilendirme komutları",
-      seviye: "Seviye komutları"
+      seviye: "Seviye komutları",
+      eğlence: "Eğlence komutları"
     });
 
     const commands = {};
