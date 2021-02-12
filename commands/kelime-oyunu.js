@@ -14,19 +14,20 @@ module.exports = ({
     const guilds = db.collection("guilds");
     const guildData = await guilds.findOne({id: message.guild.id});
 
-    const formatAward = ((awardData) => {
+    const formatAward = (async(awardData) => {
       if(awardData.type === "xp") {
         return `${awardData.wordCount} kelime başına ${awardData.award} XP`;
       } else if(awardData.type === "ecoin") {
         return `${awardData.wordCount} kelime başına ${awardData.award} e-coin`;
       } else if(awardData.type === "role") {
-        return `${awardData.wordCount} kelimeye ${awardData.award.name} rolü`;
+        const role = await message.guild.roles.fetch(awardData.award, false);
+        return `${awardData.wordCount} kelimeye ${role.name} rolü`;
       }
     });
 
     if(args.length === 0) {
       const channel = guildData.wordGame.channel.id ? `<#${guildData.wordGame.channel.id}>` : null;
-      const award = guildData.wordGame.award.award ? formatAward(guildData.wordGame.award) : null;
+      const award = guildData.wordGame.award.award ? await formatAward(guildData.wordGame.award) : null;
 
       await message.channel.send(commonTags.stripIndents`
         **Kanal:** ${channel || "Bulunmuyor"}
@@ -76,7 +77,7 @@ module.exports = ({
         }
 
         guildData.wordGame.award.type = args[3] === "rol" ? "role" : args[3];
-        guildData.wordGame.award.award = !isNaN(args[4]) ? Number(args[4]) : messageMentions.roles.first().id;
+        guildData.wordGame.award.award = messageMentions.roles.size !== 1 ? Number(args[4]) : messageMentions.roles.first().id;
         guildData.wordGame.award.wordCount = Number(args[2]);
         guildData.wordGame.award.updatedAt = Date.now();
         guildData.wordGame.award.updatedBy = message.author.id;

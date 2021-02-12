@@ -26,7 +26,7 @@ module.exports = (async(message, args) => {
         members.set(member.id, member);
         users.set(user.id, user);
       } catch(err) {}
-    } else if(!isNaN(arg) && arg.includes("+") && arg.includes("-") && arg.length === 18) {
+    } else if(!isNaN(arg) && !arg.includes("+") && !arg.includes("-") && arg.length === 18) {
       try {
         const channel = await message.guild.channels.fetch(arg, false);
         channels.set(channel.id, channel);

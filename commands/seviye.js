@@ -1,5 +1,6 @@
 const Discord = require("discord.js-light");
 const Canvas = require("canvas");
+const getMessageMentions = require("../methods/getMessageMentions.js");
 const levelFormat = require("../methods/levelFormat.js");
 
 Canvas.registerFont("./public/uni-sans-heavy.ttf", {family: "Uni Sans Heavy"});
@@ -11,7 +12,8 @@ module.exports = ({
   fetchGuild: false,
   cooldown: 2,
   execute: (async(client, db, message, guild, args) => {
-    const user = message.mentions.users.size === 1 ? message.mentions.users.first() : message.author;
+    const messageMentions = await getMessageMentions(message, args);
+    const user = messageMentions.users.size === 1 ? messageMentions.users.first() : message.author;
     const usersData = await db.collection("users").find({[`xp.${message.guild.id}`]: {$exists: true}}).toArray();
     
     let rank = usersData.sort((a, b) => b.xp[message.guild.id] - a.xp[message.guild.id]).map((userData) => userData.id).indexOf(user.id);
