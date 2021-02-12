@@ -8,8 +8,9 @@ module.exports = ({
   aliases: [],
   description: "O sunucuya ait seviyenizi gösterir.",
   category: "seviye",
+  fetchGuild: false,
   cooldown: 2,
-  execute: (async(client, db, message, args) => {
+  execute: (async(client, db, message, guild, args) => {
     const users = db.collection("users");
     const usersData = await users.find({[`xp.${message.guild.id}`]: {$exists: true}}).toArray();
     let rank = usersData.sort((a, b) => b.xp[message.guild.id] - a.xp[message.guild.id]).map((userData) => userData.id).indexOf(message.author.id);

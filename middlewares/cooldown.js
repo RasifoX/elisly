@@ -7,8 +7,6 @@ module.exports = (async(client, db, message, command, commandName, args) => {
     const remaining = (cooldownData.cooldown * 1000) - (Date.now() - cooldownData.usedAt);
     await message.reply(`bu komutu kullanmak için **${(remaining / 1000).toFixed(2)} saniye** beklemelisin.`)
   } else {
-    await command.execute(client, db, message, args);
-
     if(command.cooldown) {
       userData.cooldowns[commandName] = ({
         usedAt: Date.now(),

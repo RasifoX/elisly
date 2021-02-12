@@ -1,5 +1,6 @@
 module.exports = ({
   token: "",
   prefix: "",
-  mongoURL: ""
+  mongoURL: "",
+  githubRepository: ""
 });
