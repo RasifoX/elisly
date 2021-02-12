@@ -65,7 +65,9 @@ module.exports = ({
     });
 
     const handleReactions = (async(helpMessage, collector, reaction) => {
-      await reaction.users.remove(message.author.id);
+      if(helpMessage.channel.type === "text") {
+        await reaction.users.remove(message.author.id);
+      }
 
       if(reaction.emoji.name === emojis[0] && currentPage !== 1) {
         currentPage = 1;
@@ -77,7 +79,7 @@ module.exports = ({
         currentPage = pages.length;
       } else if(reaction.emoji.name === emojis[4]) {
         collector.stop();
-        await helpMessage.edit("Komut sonlandırıldı, bu mesaj **5 saniye** sonra kendini imha edecektir.");
+        await helpMessage.edit("Komut sonlandırıldı, bu mesaj **5 saniye** sonra silinecek.");
         await helpMessage.delete({timeout: 5000});
         return;
       } else {

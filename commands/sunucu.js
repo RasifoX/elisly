@@ -46,11 +46,11 @@ module.exports = ({
     const embed = new Discord.MessageEmbed();
     embed.setTitle(`${guild.name} hakkında bilgilendirme`);
     embed.setThumbnail(guild.iconURL({dynamic: true}));
+    embed.addField("ID", guild.id);
     embed.addField("Sahip", guild.owner.toString());
     embed.addField("Boost sayısı / seviyesi", `${guild.premiumSubscriptionCount} **/** ${guild.premiumTier} seviye`);
     embed.addField("Oluşturulma tarihi", moment(guild.createdTimestamp).locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
     embed.addField("Aktif özellikler", guild.features.length !== 0 ? guild.features.map((feature) => features[feature]).join(" **|** ") : "Bulunmuyor");
-    embed.addField("Üye sayısı", guild.memberCount);
     embed.addField("Konum", regions[guild.region]);
     embed.setColor(0x00FFFF);
 
