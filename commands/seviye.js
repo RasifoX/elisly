@@ -11,19 +11,21 @@ module.exports = ({
   fetchGuild: false,
   cooldown: 2,
   execute: (async(client, db, message, guild, args) => {
-    const users = db.collection("users");
-    const usersData = await users.find({[`xp.${message.guild.id}`]: {$exists: true}}).toArray();
-    let rank = usersData.sort((a, b) => b.xp[message.guild.id] - a.xp[message.guild.id]).map((userData) => userData.id).indexOf(message.author.id);
+    const user = message.mentions.users.size === 1 ? message.mentions.users.first() : message.author;
+    const usersData = await db.collection("users").find({[`xp.${message.guild.id}`]: {$exists: true}}).toArray();
+    
+    let rank = usersData.sort((a, b) => b.xp[message.guild.id] - a.xp[message.guild.id]).map((userData) => userData.id).indexOf(user.id);
     rank = rank === -1 ? usersData.length : rank;
     rank += 1;
-    const userData = usersData.find((userData) => userData.id === message.author.id);
+
+    const userData = usersData.find((userData) => userData.id === user.id);
     const levelData = levelFormat(userData ? userData.xp[message.guild.id] : 0);
 
     const canvas = Canvas.createCanvas(750, 400);
     const ctx = canvas.getContext("2d");
 
     // Avatar
-    const avatarImage = await Canvas.loadImage(message.author.displayAvatarURL({
+    const avatarImage = await Canvas.loadImage(user.displayAvatarURL({
       format: "png"
     }));
     ctx.save();
@@ -42,12 +44,13 @@ module.exports = ({
     ctx.stroke();
     ctx.restore();
 
+    // Texts
     ctx.font = '48px "Uni Sans Heavy"';
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText(message.author.username, 30, 80);
+    ctx.fillText(user.username, 30, 80);
 
     ctx.fillStyle = "#D7D7D7";
-    ctx.fillText(message.author.discriminator.toString(), 30, 130);
+    ctx.fillText(user.discriminator.toString(), 30, 130);
 
     ctx.fillStyle = "#FFFFFF";
     ctx.textAlign = "right";

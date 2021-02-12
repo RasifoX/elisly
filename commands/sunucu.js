@@ -49,7 +49,7 @@ module.exports = ({
     embed.addField("ID", guild.id);
     embed.addField("Sahip", guild.owner.toString());
     embed.addField("Boost sayısı / seviyesi", `${guild.premiumSubscriptionCount} **/** ${guild.premiumTier} seviye`);
-    embed.addField("Oluşturulma tarihi", moment(guild.createdTimestamp).locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
+    embed.addField("Oluşturulma tarihi", moment(guild.createdTimestamp).add(3, "hours").locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
     embed.addField("Aktif özellikler", guild.features.length !== 0 ? guild.features.map((feature) => features[feature]).join(" **|** ") : "Bulunmuyor");
     embed.addField("Konum", regions[guild.region]);
     embed.setColor(0x00FFFF);

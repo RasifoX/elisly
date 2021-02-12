@@ -27,7 +27,7 @@ module.exports = (async(client, db, message) => {
         await command.execute(client, db, message, null, args);
       }
     } catch(error) {
-      await message.reply(`botta bir hata oluştu, lütfen geliştiriciye ulaş: ${error.toString()}`);
+      await message.reply(`botta bir hata oluştu, lütfen geliştiriciye ulaş: \`${error.toString()}\``);
       console.log(error);
     }
   }
