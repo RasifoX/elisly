@@ -5,7 +5,9 @@ module.exports = (async(client, db, message, command, commandName, args) => {
   if(userData.cooldowns.hasOwnProperty(commandName)) {
     const cooldownData = userData.cooldowns[commandName];
     const remaining = (cooldownData.cooldown * 1000) - (Date.now() - cooldownData.usedAt);
-    await message.reply(`bu komutu kullanmak için **${(remaining / 1000).toFixed(2)} saniye** beklemelisin.`)
+    await message.reply(`bu komutu kullanmak için **${(remaining / 1000).toFixed(2)} saniye** beklemelisin.`);
+
+    return true;
   } else {
     if(command.cooldown) {
       userData.cooldowns[commandName] = ({

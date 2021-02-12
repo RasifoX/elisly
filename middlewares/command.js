@@ -19,7 +19,9 @@ module.exports = (async(client, db, message) => {
     await users.updateOne({id: message.author.id}, {$set: userData});
 
     try {
-      await cooldownMiddleware(client, db, message, command, commandName, args);
+      const stoppedByCooldown = await cooldownMiddleware(client, db, message, command, commandName, args);
+
+      if(stoppedByCooldown) return;
 
       if(command.fetchGuild) {
         const guild = await client.guilds.fetch(message.guild.id, false);
