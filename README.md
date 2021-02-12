@@ -10,5 +10,8 @@ Seviye sistemi
 ## Hırsız, bu kodları sen yazmadın ki?
 Sunucuda yazılan kodlar bir bir commit şeklinde kayıt altında tutulmaktadır. Biraz göz atın.
 
+## GitHub'ta gözükmeyip yardım eden kişiler
+[@bmodb](https://github.com/bmodb) - tasarım
+
 ## Lisans
 Botun kodları [MIT lisansı](https://github.com/acarkh/elisly/blob/main/LICENSE) ile korunmaktadır. Herhangi bir kopyalanma durumunda lisans koşulları ihlal edilirse gerekli işlemler yapılacaktır.
