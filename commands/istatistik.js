@@ -1,6 +1,7 @@
-const Discord = require("discord.js");
+const Discord = require("discord.js-light");
 const fetch = require("node-fetch");
 const moment = require("moment");
+const os = require("os");
 const limitJoin = require("../methods/limitJoin.js");
 const packageData = require("../package.json");
 const settings = require("../settings.js");
@@ -61,6 +62,7 @@ module.exports = ({
 
     embed.addField("Yazılım sürümleri", `node ${process.version}\ndiscord.js ${Discord.version}`);
     embed.addField("Komutlar", client.commands.size);
+    embed.addField("Bellek kullanımı", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} **|** ${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`)
 
     links.push(`[Botu ekle](${invite})`);
 

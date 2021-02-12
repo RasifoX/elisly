@@ -6,6 +6,8 @@ Elisly her sunucuya özel olarak tasarlanan güçlendirilmiş bir Discord botudu
 
 ## İçerdiği sistemler
 Seviye sistemi
+Seviye rol sistemi (bakımda)
+Ödüllü kelime oyunu sistemi (bakımda)
 
 ## Hırsız, bu kodları sen yazmadın ki?
 Sunucuda yazılan kodlar bir bir commit şeklinde kayıt altında tutulmaktadır. Biraz göz atın.

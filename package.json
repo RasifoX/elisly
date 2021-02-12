@@ -7,15 +7,18 @@
     "start": "node ."
   },
   "dependencies": {
-    "bufferutil": "^4.0.3",
     "canvas": "^2.6.1",
+    "common-tags": "^1.8.0",
     "discord.js": "^12.5.1",
     "discord.js-light": "^3.5.2",
-    "erlpack": "github:discord/erlpack",
     "moment": "^2.29.1",
-    "mongodb": "^3.6.2",
+    "mongodb": "^3.6.2"
+  },
+  "devDependencies": {
     "utf-8-validate": "^5.0.4",
-    "zlib-sync": "^0.1.7"
+    "zlib-sync": "^0.1.7",
+    "erlpack": "github:discord/erlpack",
+    "bufferutil": "^4.0.3"
   },
   "repository": {
     "type": "git",

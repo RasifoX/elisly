@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const Discord = require("discord.js-light");
 const Canvas = require("canvas");
 const levelFormat = require("../methods/levelFormat.js");
 

@@ -21,18 +21,33 @@ module.exports = (async(client, db, message) => {
   }
 
   const guilds = db.collection("guilds");
-  const guildData = await db.collection("guilds").findOne({id: message.guild.id});
+  const guildData = await guilds.findOne({id: message.guild.id});
 
   if(!guildData) {
     await guilds.insertOne({
       id: message.guild.id,
       levelRanks: {},
       moderatorRoles: [],
-      logChannel: "",
-      modlogChannel: "",
-      twitchChannel: "",
-      youtubeChannel: "",
-      dliveChannel: ""
+      logChannel: null,
+      modlogChannel: null,
+      twitchChannel: null,
+      youtubeChannel: null,
+      dliveChannel: null,
+      wordGame: {
+        channel: {
+          id: null,
+          updatedBy: null,
+          updatedAt: null
+        },
+        award: {
+          type: null,
+          wordCount: null,
+          award: null,
+          updatedBy: null,
+          updatedAt: null
+        }
+      },
+      numberGameChannel: null
     });
   }
 
