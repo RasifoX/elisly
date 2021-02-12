@@ -3,6 +3,8 @@ const settings = require("../settings.js");
 const cooldownMiddleware = require("./cooldown.js");
 
 module.exports = (async(client, db, message) => {
+  if(!message.content.startsWith(settings.prefix)) return;
+
   const users = db.collection("users");
   const userData = await users.findOne({id: message.author.id});
 
