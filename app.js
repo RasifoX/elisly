@@ -4,9 +4,13 @@ const fs = require("fs");
 
 const settings = require("./settings.js");
 const client = new Discord.Client({
+  cacheGuilds: false,
+  cacheChannels: false,
+  cacheOverwrites: false,
+  cacheRoles: false,
   cacheEmojis: false,
   cacheOverwrites: false,
-  cacheGuilds: false
+  disabledEvents: Object.keys(Discord.Constants.WSEvents).filter((key) => !(["READY", "MESSAGE_CREATE", "MESSAGE_REACTION_ADD"]).includes(key))
 });
 
 client.commands = new Discord.Collection();
