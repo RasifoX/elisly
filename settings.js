@@ -2,5 +2,6 @@ module.exports = ({
   token: "",
   prefix: "",
   mongoURL: "",
-  githubRepository: ""
+  githubRepository: "",
+  color: 0x00FFFF
 });

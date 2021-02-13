@@ -13,7 +13,7 @@ module.exports = ({
 
     if(args.length === 0) {
       const embed = new Discord.MessageEmbed();
-      embed.setColor(0x00FFFF);
+      embed.setColor(settings.color);
 
       if(Object.keys(guildData.levelRanks).length === 0) {
         embed.setDescription(`Bu sunucuda hiçbir seviyeye özel rol atanmamış. Atamayı öğrenmek için \`${settings.prefix}seviye-rol yardım\` yazabilirsin.`);

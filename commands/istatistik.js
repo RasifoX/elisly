@@ -71,7 +71,7 @@ module.exports = ({
     }
 
     embed.addField("Linkler", links.join(" **|** "));
-    embed.setColor(0x00FFFF);
+    embed.setColor(settings.color);
 
     await message.channel.send(embed);
   })

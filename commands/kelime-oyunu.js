@@ -1,4 +1,6 @@
+const Discord = require("discord.js");
 const commonTags = require("common-tags");
+const moment = require("moment");
 const settings = require("../settings.js");
 const getMessageMentions = require("../methods/getMessageMentions.js");
 
@@ -84,6 +86,27 @@ module.exports = ({
 
         await guilds.updateOne({id: message.guild.id}, {$set: guildData});
         await message.reply("ödül değiştirildi.");
+      }
+    } else if(args[0] === "göster") {
+      if(args[1] === "ödül") {
+        const awardIsSetted = !!guildData.wordGame.award.type;
+        const types = ({
+          role: "Rol",
+          ecoin: "E-Coin",
+          xp: "XP"
+        });
+
+        const embed = new Discord.MessageEmbed();
+        embed.setDescription(commonTags.stripIndents`
+          **Ödül türü:** ${awardIsSetted ? types[guildData.wordGame.award.type] : "Bulunmuyor"}
+          **Ödül:** ${awardIsSetted ? types[guildData.wordGame.award.type] : "Bulunmuyor"}
+          **Ödülü almak için gerekli kelime sayısı:** ${awardIsSetted ? guildData.wordGame.award.wordCount : "Bulunmuyor"}
+          **Ne zaman değiştirildi:** ${awardIsSetted ? moment(guildData.wordGame.award.updatedAt).locale("tr").format("DD MMMM YYYY ddd HH:mm:ss") : "Bulunmuyor"}
+          **Kim tarafından değiştirildi:** ${awardIsSetted ? `<@${guildData.wordGame.award.updatedBy}>` : "Bulunmuyor"}
+        `);
+        embed.setColor(settings.color);
+
+        await message.channel.send(embed);
       }
     }
   })
