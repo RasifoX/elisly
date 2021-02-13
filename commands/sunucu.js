@@ -1,6 +1,8 @@
 const Discord = require("discord.js-light");
 const moment = require("moment");
 
+const settings = require("../settings.js");
+
 module.exports = ({
   aliases: ["sb", "sunucu-bilgi"],
   description: "O sunucu hakkında bilgi verir.",
@@ -53,7 +55,7 @@ module.exports = ({
     embed.addField("Oluşturulma tarihi", moment(message.guild.createdTimestamp).add(3, "hours").locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
     embed.addField("Aktif özellikler", message.guild.features.length !== 0 ? message.guild.features.map((feature) => features[feature]).join(" **|** ") : "Bulunmuyor");
     embed.addField("Konum", regions[message.guild.region]);
-    embed.setColor(0x00FFFF);
+    embed.setColor(settings.color);
 
     await message.channel.send(embed);
   })

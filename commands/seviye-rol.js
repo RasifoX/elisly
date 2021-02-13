@@ -6,7 +6,7 @@ module.exports = ({
   description: "Seviyeye özel rolleri ayarlar.",
   category: "seviye",
   cooldown: 3,
-  execute: (async(client, db, message, guild, args) => {
+  execute: (async(client, db, message, args) => {
     const guildData = await db.collection("guilds").findOne({id: message.guild.id});
     const ranks = guildData.levelRanks;
 

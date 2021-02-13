@@ -6,12 +6,13 @@ module.exports = ({
     me: true
   },
   cooldown: 5,
-  execute: (async(client, db, message, guild, args) => {
+  execute: (async(client, db, message, args) => {
     const categories = ({
       genel: "Genel komutlar",
       bilgilendirme: "Bilgilendirme komutları",
       seviye: "Seviye komutları",
-      eğlence: "Eğlence komutları"
+      eğlence: "Eğlence komutları",
+      geliştirici: "Geliştirici komutları"
     });
 
 
@@ -28,10 +29,6 @@ module.exports = ({
         commands[category] = [];
       }
 
-      if(commandKeys[i].length > maxLength) {
-        maxLength = commandKeys[i];
-      }
-
       commands[category].push(commandKeys[i]);
     }
 
@@ -41,9 +38,16 @@ module.exports = ({
 
     for(let i = 0; i < Object.keys(commands).length; i++) {
       const page = [];
-      
+      let maxLength = 0;
+
       const category = Object.values(commands)[i];
       const commandCount = category.length;
+
+      for(let a = 0; a < commandCount; a++) {
+        if(category[a].length > maxLength) {
+          maxLength = category[a].length;
+        }
+      }
 
       page.push(`${categories[Object.keys(commands)[i]]}\n`);
 
@@ -74,7 +78,7 @@ module.exports = ({
     });
 
     const handleReactions = (async(helpMessage, collector, reaction) => {
-      if(helpMessage.channel.type === "text") {
+      if(helpMessage.channel.type === "text" && message.guild.me.permissions.has("MANAGE_MESSAGES")) {
         await reaction.users.remove(message.author.id);
       }
 

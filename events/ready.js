@@ -3,12 +3,12 @@ const settings = require("../settings.js");
 module.exports = (async(client, db) => {
   await client.user.setPresence({
     activity: {
-      name: `${settings.prefix}yardım | ${client.guilds.cache.size} sunucu`
+      name: `${settings.prefix}yardım`
     },
     status: "idle"
   });
 
-  console.log("Presence is setted.");
+  console.log("Durum ayarlandı.");
 
   const users = db.collection("users");
   const usersData = await users.find({$cooldown: ((d) => JSON.stringify(d) !== "{}")}).toArray();
@@ -27,7 +27,7 @@ module.exports = (async(client, db) => {
     });
   }
 
-  console.log("Cooldowns is registered.");
+  console.log("Komut için bekleme süreleri sisteme işlendi.");
 
-  console.log("Bot is ready.");
+  console.log("Botun hazırlanması tamamlandı.");
 });

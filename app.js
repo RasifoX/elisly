@@ -32,7 +32,7 @@ MongoClient.connect(settings.mongoURL, {
         await event(client, db, ...args);
       });
 
-      console.log(`${eventName} event is binded.`);
+      console.log(`${eventName} olayı tanımlandı.`);
     }
   });
 
@@ -47,7 +47,7 @@ MongoClient.connect(settings.mongoURL, {
 
       client.commands.set(commandName, command);
 
-      console.log(`${commandName} command is cached.`);
+      console.log(`${commandName} komutu yüklendi.`);
     }
   });
 });

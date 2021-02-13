@@ -1,11 +1,12 @@
 const Discord = require("discord.js-light");
 const caseChangerObject = require("./caseChangerObject.js");
 
-module.exports = (async(message, fetchData = {}) => {
+module.exports = (async(message, fetchData = {}, permissionsData = []) => {
   const author = await message.client.users.fetch(message.author.id, false);
+  let guildIsFetched = false;
 
   let guild = message.guild;
-  let owner, me;
+  let owner, me, member;
 
   class Guild extends Discord.Guild {
     get me() {
@@ -27,6 +28,10 @@ module.exports = (async(message, fetchData = {}) => {
     get guild() {
       return guild;
     }
+
+    get member() {
+      return member;
+    }
   }
 
   if(fetchData.me) {
@@ -35,9 +40,28 @@ module.exports = (async(message, fetchData = {}) => {
 
   if(fetchData.guild) {
     guild = await message.client.guilds.fetch(message.guild.id, false);
+    guıldIsFetched = true;
+  }
+
+  if(fetchData.guild || permissionsData.includes("GUILD_OWNER")) {
+    if(!guildIsFetched) {
+      guild = await message.client.guilds.fetch(message.guild.id, false);
+      guıldIsFetched = true;
+    }
+
     owner = await guild.members.fetch(guild.ownerID, false);
   }
 
+  if(fetchData.member || permissionsData.some((permission) => !(["BOT_OWNER", "GUILD_OWNER"]).includes(permission))) {
+    if(!guildIsFetched) {
+      guild = await message.client.guilds.fetch(message.guild.id, false);
+      guıldIsFetched = true;
+    }
+
+    member = await guild.members.fetch(message.author.id, false);
+  }
+
   guild = new Guild(message.client, caseChangerObject(guild.toJSON()));
+
   return new Message(message.client, caseChangerObject(message.toJSON()), message.channel);
 });
