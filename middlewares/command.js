@@ -1,6 +1,8 @@
 const Discord = require("discord.js-light");
-const settings = require("../settings.js");
+
+const applyFetch = require("../methods/applyFetch.js");
 const cooldownMiddleware = require("./cooldown.js");
+const settings = require("../settings.js");
 
 module.exports = (async(client, db, message) => {
   if(!message.content.startsWith(settings.prefix)) return;
@@ -21,14 +23,8 @@ module.exports = (async(client, db, message) => {
     try {
       const stoppedByCooldown = await cooldownMiddleware(client, db, message, command, commandName, args);
 
-      if(stoppedByCooldown) return;
-
-      if(command.fetchGuild) {
-        const guild = await client.guilds.fetch(message.guild.id, false);
-
-        await command.execute(client, db, message, guild, args);
-      } else {
-        await command.execute(client, db, message, null, args);
+      if(!stoppedByCooldown) {
+        await command.execute(client, db, await applyFetch(message, command.fetch), args);
       }
     } catch(error) {
       await message.reply(`botta bir hata oluştu, lütfen geliştiriciye ulaş: \`${error.toString()}\``);

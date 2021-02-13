@@ -3,5 +3,6 @@ module.exports = ({
   prefix: "",
   mongoURL: "",
   githubRepository: "",
-  color: 0x00FFFF
+  color: 0x00FFFF,
+  supportServer: ""
 });

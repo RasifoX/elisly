@@ -1,6 +1,6 @@
 {
   "name": "elisly",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Elisly her sunucuya özel olarak tasarlanan güçlendirilmiş bir Discord botudur.",
   "main": "./app.js",
   "scripts": {

@@ -9,9 +9,8 @@ module.exports = ({
   aliases: [],
   description: "O sunucuya ait seviyenizi gösterir.",
   category: "seviye",
-  fetchGuild: false,
   cooldown: 2,
-  execute: (async(client, db, message, guild, args) => {
+  execute: (async(client, db, message, args) => {
     const messageMentions = await getMessageMentions(message, args);
     const user = messageMentions.users.size === 1 ? messageMentions.users.first() : message.author;
     const usersData = await db.collection("users").find({[`xp.${message.guild.id}`]: {$exists: true}}).toArray();
@@ -52,7 +51,7 @@ module.exports = ({
     ctx.fillText(user.username, 30, 80);
 
     ctx.fillStyle = "#D7D7D7";
-    ctx.fillText(user.discriminator.toString(), 30, 130);
+    ctx.fillText(`#${user.discriminator}`, 30, 130);
 
     ctx.fillStyle = "#FFFFFF";
     ctx.textAlign = "right";

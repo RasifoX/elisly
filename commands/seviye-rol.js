@@ -5,7 +5,6 @@ module.exports = ({
   aliases: [],
   description: "Seviyeye özel rolleri ayarlar.",
   category: "seviye",
-  fetchGuild: false,
   cooldown: 3,
   execute: (async(client, db, message, guild, args) => {
     const guildData = await db.collection("guilds").findOne({id: message.guild.id});

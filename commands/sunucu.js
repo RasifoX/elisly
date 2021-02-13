@@ -5,9 +5,11 @@ module.exports = ({
   aliases: ["sb", "sunucu-bilgi"],
   description: "O sunucu hakkında bilgi verir.",
   category: "bilgilendirme",
-  fetchGuild: true,
+  fetch: {
+    guild: true
+  },
   cooldown: 3,
-  execute: (async(client, db, message, guild, args) => {
+  execute: (async(client, db, message, args) => {
     const features = ({
       ANIMATED_ICON: "Animasyonlu simge",
       BANNER: "Banner",
@@ -44,14 +46,13 @@ module.exports = ({
     });
 
     const embed = new Discord.MessageEmbed();
-    embed.setTitle(`${guild.name} hakkında bilgilendirme`);
-    embed.setThumbnail(guild.iconURL({dynamic: true}));
-    embed.addField("ID", guild.id);
-    embed.addField("Sahip", `<@${guild.ownerID}>`);
-    embed.addField("Boost sayısı / seviyesi", `${guild.premiumSubscriptionCount} **/** ${guild.premiumTier} seviye`);
-    embed.addField("Oluşturulma tarihi", moment(guild.createdTimestamp).add(3, "hours").locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
-    embed.addField("Aktif özellikler", guild.features.length !== 0 ? guild.features.map((feature) => features[feature]).join(" **|** ") : "Bulunmuyor");
-    embed.addField("Konum", regions[guild.region]);
+    embed.setThumbnail(message.guild.iconURL({dynamic: true}));
+    embed.addField("ID", message.guild.id);
+    embed.addField("Sahip", message.guild.owner.toString());
+    embed.addField("Boost sayısı / seviyesi", `${message.guild.premiumSubscriptionCount} **/** ${message.guild.premiumTier} seviye`);
+    embed.addField("Oluşturulma tarihi", moment(message.guild.createdTimestamp).add(3, "hours").locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
+    embed.addField("Aktif özellikler", message.guild.features.length !== 0 ? message.guild.features.map((feature) => features[feature]).join(" **|** ") : "Bulunmuyor");
+    embed.addField("Konum", regions[message.guild.region]);
     embed.setColor(0x00FFFF);
 
     await message.channel.send(embed);

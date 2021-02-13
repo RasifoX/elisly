@@ -2,7 +2,9 @@ module.exports = ({
   aliases: ["komutlar"],
   description: "Botun komutlarını detaylı şekilde gösterir.",
   category: "genel",
-  fetchGuild: false,
+  fetch: {
+    me: true
+  },
   cooldown: 5,
   execute: (async(client, db, message, guild, args) => {
     const categories = ({
@@ -11,6 +13,8 @@ module.exports = ({
       seviye: "Seviye komutları",
       eğlence: "Eğlence komutları"
     });
+
+
 
     const commands = {};
     const commandKeys = client.commands.keyArray();
@@ -31,23 +35,27 @@ module.exports = ({
       commands[category].push(commandKeys[i]);
     }
 
+
+
     const pages = [];
 
     for(let i = 0; i < Object.keys(commands).length; i++) {
       const page = [];
       
       const category = Object.values(commands)[i];
-      const categoryLength = category.length;
+      const commandCount = category.length;
 
       page.push(`${categories[Object.keys(commands)[i]]}\n`);
 
-      for(let a = 0; a < categoryLength; a++) {
+      for(let a = 0; a < commandCount; a++) {
         const commandName = category[a];
-        page.push(`${commandName}${("").repeat(maxLength - commandName.length)} :: ${client.commands.get(commandName).description}`);
+        page.push(`${commandName}${(" ").repeat(maxLength - commandName.length)} :: ${client.commands.get(commandName).description}`);
       }
 
       pages.push(page.join("\n"));
     }
+
+
 
     const emojis = ["⏪", "◀️", "▶️", "⏩", "🗑️"];
     let currentPage = 1;
@@ -80,8 +88,8 @@ module.exports = ({
         currentPage = pages.length;
       } else if(reaction.emoji.name === emojis[4]) {
         collector.stop();
-        await helpMessage.edit("Komut sonlandırıldı, bu mesaj **5 saniye** sonra silinecek.");
-        await helpMessage.delete({timeout: 5000});
+        await helpMessage.edit("Komut sonlandırıldı, bu mesaj **3 saniye** sonra silinecek.");
+        await helpMessage.delete({timeout: 3000});
         return;
       } else {
         return;
@@ -92,16 +100,26 @@ module.exports = ({
 
     const endCollector = (async(helpMessage, collected, reason) => {
       if(reason === "time") {
-        await helpMessage.edit("Yardım komutu için verilen **30 saniye** bittiği için kullanım sonlandırıldı, bu mesaj **2.5 saniye** sonra silinecek.");
-        await helpMessage.delete({timeout: 2500});
+        await helpMessage.edit("Yardım komutu için verilen **30 saniye** bittiği için kullanım sonlandırıldı, bu mesaj **1.5 saniye** sonra silinecek.");
+        await helpMessage.delete({timeout: 1500});
+      } else if(reason === "dm-error") {
+        await firstMessage.edit("Özelden mesaj atılmasını kapattığın için komut çalıştırılamadı, bu mesaj **1.5 saniye** sonra silinecek.");
+        await firstMessage.delete({timeout: 1500});
       }
     });
 
     firstCollector.on("collect", async(reaction) => {
-      await reaction.users.remove(message.author.id);
+      if(message.guild.me.permissions.has("MANAGE_MESSAGES")) {
+        await reaction.users.remove(message.author.id);
+      }
 
       if(reaction.emoji.name === "🇩") {
-        const helpMessage = await message.author.send(formatPage(pages[0]));
+        try {
+          const helpMessage = await message.author.send(formatPage(pages[0]));
+        } catch(error) {
+          await endCollector(null, 0, "dm-error");
+          return;
+        }
 
         for(let i = 0; i < emojis.length; i++) {
           await helpMessage.react(emojis[i]);
@@ -131,12 +149,12 @@ module.exports = ({
 
     firstCollector.on("end", async(collected, reason) => {
       if(reason === "time") {
-        await firstMessage.edit("Yardım komutu için verilen **30 saniye** bittiği için kullanım sonlandırıldı, bu mesaj **2.5 saniye** sonra silinecek.");
+        await firstMessage.edit("Yardım komutunun nerede çalıştırılacağının seçilmesi için verilen **30 saniye** bittiği için kullanım sonlandırıldı, bu mesaj **1.5 saniye** sonra silinecek.");
       } else {
-        await firstMessage.edit("Komut çalıştırıldı, bu mesaj **2.5 saniye** sonra silinecek.");
+        await firstMessage.edit("Komut çalıştırıldı, bu mesaj **1.5 saniye** sonra silinecek.");
       }
 
-      await firstMessage.delete({timeout: 2500});
+      await firstMessage.delete({timeout: 1500});
     });
   })
 });

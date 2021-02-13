@@ -8,7 +8,6 @@ module.exports = ({
   aliases: ["kelimeoyunu"],
   description: "Kelime oyunu hakkında bilgi verir.",
   category: "eğlence",
-  fetchGuild: false,
   cooldown: 4,
   execute: (async(client, db, message, guild, args) => {
     const messageMentions = await getMessageMentions(message, args);
