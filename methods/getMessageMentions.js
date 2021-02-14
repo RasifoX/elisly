@@ -19,6 +19,13 @@ module.exports = (async(message, args) => {
         const role = await message.guild.roles.fetch(arg.slice(3, -1), false);
         roles.set(role.id, role);
       } catch(err) {}
+    } else if(arg.startsWith("<@!")) {
+      try {
+        const member = await message.guild.members.fetch(arg.slice(3, -1), false);
+        const user = await message.client.users.fetch(arg.slice(3, -1), false);
+        members.set(member.id, member);
+        users.set(user.id, user);
+      } catch(err) {}
     } else if(arg.startsWith("<@")) {
       try {
         const member = await message.guild.members.fetch(arg.slice(2, -1), false);
