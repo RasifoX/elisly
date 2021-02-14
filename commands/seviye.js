@@ -1,5 +1,6 @@
 const Discord = require("discord.js-light");
 const Canvas = require("canvas");
+const settings = require("../settings.js");
 const getMessageMentions = require("../methods/getMessageMentions.js");
 const levelFormat = require("../methods/levelFormat.js");
 
@@ -14,7 +15,7 @@ module.exports = ({
     const messageMentions = await getMessageMentions(message, args);
     const user = messageMentions.users.size === 1 ? messageMentions.users.first() : message.author;
     const usersData = await db.collection("users").find({[`xp.${message.guild.id}`]: {$exists: true}}).toArray();
-    
+
     let rank = usersData.sort((a, b) => b.xp[message.guild.id] - a.xp[message.guild.id]).map((userData) => userData.id).indexOf(user.id);
     rank = rank === -1 ? usersData.length : rank;
     rank += 1;
@@ -31,17 +32,18 @@ module.exports = ({
     }));
     ctx.save();
     ctx.beginPath();
-    ctx.arc(105, 300, 75, 0, 2 * Math.PI);
+    ctx.arc(105, 300, 75, 0, (2 * Math.PI));
     ctx.closePath();
     ctx.clip();
     ctx.drawImage(avatarImage, (105 - 75), (300 - 75), (75 * 2), (75 * 2));
     ctx.restore();
 
+    // Stroke
     ctx.save();
     ctx.beginPath();
-    ctx.arc(105, 300, 75, 0, ((levelData.xp / levelData.needLevel) * 2) * Math.PI);
-    ctx.strokeStyle = "#878787";
-    ctx.lineWidth = 5;
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 10;
+    ctx.arc(105, 300, 75, 0, (((levelData.xp / levelData.needLevel) * 2) * Math.PI));
     ctx.stroke();
     ctx.restore();
 
@@ -55,10 +57,10 @@ module.exports = ({
 
     ctx.fillStyle = "#FFFFFF";
     ctx.textAlign = "right";
-    ctx.fillText(`${levelData.level} SEVİYE`, 720, 80);
+    ctx.fillText(`${levelData.level}. SEVİYE`, 720, 80);
 
     ctx.fillStyle = "#D7D7D7";
-    ctx.fillText(`#${rank}`, 720, 130);
+    ctx.fillText(`${rank}. SIRA`, 720, 130);
     ctx.fillText(`${levelData.xp}/${levelData.needLevel} XP`, 720, 310);
 
     ctx.fillStyle = "#B3B3B3";
