@@ -40,7 +40,7 @@ module.exports = ({
       const embed = new Discord.MessageEmbed();
       embed.setTitle("Kod çalıştırıldı.");
       embed.setDescription(`${((executedAt[0] * 1000) + (executedAt[1] / 1e6)).toFixed(3)} milisaniyede çalıştırıldı.`);
-      embed.addField("Kod", `\`\`\`javascript\n${limitJoin(args.join("").split(""), "", 1010)}\`\`\``);
+      embed.addField("Kod", `\`\`\`javascript\n${limitJoin(args.join(" ").split(""), "", 1010)}\`\`\``);
       embed.addField("Sonuç", `\`\`\`javascript\n${limitJoin((`${result}`).split(""), "", 950)}\`\`\``);
       embed.addField("Sonuç türü", `\`\`\`\n${typeof result}\`\`\``);
       embed.setColor(settings.color);

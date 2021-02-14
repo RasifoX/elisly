@@ -53,7 +53,7 @@ module.exports = ({
     ctx.fillText(user.username, 30, 80);
 
     ctx.fillStyle = "#D7D7D7";
-    ctx.fillText(`#${user.discriminator}`, 30, 130);
+    ctx.fillText(user.discriminator.toString(), 30, 130);
 
     ctx.fillStyle = "#FFFFFF";
     ctx.textAlign = "right";
