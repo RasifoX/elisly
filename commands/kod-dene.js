@@ -5,15 +5,12 @@ const settings = require("../settings.js");
 const limitJoin = require("../methods/limitJoin.js");
 
 module.exports = ({
+  enabled: true,
   aliases: [],
   description: "Kod denemeni sağlar.",
   category: "geliştirici",
-  fetch: {
-    guild: true,
-    me: true,
-    member: true
-  },
   permissions: ["BOT_OWNER"],
+  fetch: ["guild", "me", "member"],
   cooldown: 3,
   execute: (async(client, db, message, args) => {
     if(args.length === 0) {

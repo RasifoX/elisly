@@ -4,12 +4,12 @@ const moment = require("moment");
 const settings = require("../settings.js");
 
 module.exports = ({
+  enabled: true,
   aliases: ["sb", "sunucu-bilgi"],
   description: "O sunucu hakkında bilgi verir.",
   category: "bilgilendirme",
-  fetch: {
-    guild: true
-  },
+  permissions: [],
+  fetch: ["guild"],
   cooldown: 3,
   execute: (async(client, db, message, args) => {
     const features = ({

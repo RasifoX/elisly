@@ -1,7 +1,7 @@
 const Discord = require("discord.js-light");
 const caseChangerObject = require("./caseChangerObject.js");
 
-module.exports = (async(message, fetchData = {}, permissionsData = []) => {
+module.exports = (async(message, fetchData = [], permissionsData = []) => {
   const author = await message.client.users.fetch(message.author.id, false);
   let guildIsFetched = false;
 
@@ -34,16 +34,16 @@ module.exports = (async(message, fetchData = {}, permissionsData = []) => {
     }
   }
 
-  if(fetchData.me) {
+  if(fetchData.includes("me")) {
     me = await guild.members.fetch(message.client.user.id, false);
   }
 
-  if(fetchData.guild) {
+  if(fetchData.includes("guild")) {
     guild = await message.client.guilds.fetch(message.guild.id, false);
     guıldIsFetched = true;
   }
 
-  if(fetchData.guild || permissionsData.includes("GUILD_OWNER")) {
+  if(fetchData.includes("guild") || permissionsData.includes("GUILD_OWNER")) {
     if(!guildIsFetched) {
       guild = await message.client.guilds.fetch(message.guild.id, false);
       guıldIsFetched = true;
@@ -52,7 +52,7 @@ module.exports = (async(message, fetchData = {}, permissionsData = []) => {
     owner = await guild.members.fetch(guild.ownerID, false);
   }
 
-  if(fetchData.member || permissionsData.some((permission) => !(["BOT_OWNER", "GUILD_OWNER"]).includes(permission))) {
+  if(fetchData.includes("member") || permissionsData.some((permission) => !(["BOT_OWNER", "GUILD_OWNER"]).includes(permission))) {
     if(!guildIsFetched) {
       guild = await message.client.guilds.fetch(message.guild.id, false);
       guıldIsFetched = true;

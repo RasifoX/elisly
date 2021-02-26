@@ -5,12 +5,12 @@ Elisly her sunucuya özel olarak tasarlanan güçlendirilmiş bir Discord botudu
 [Botu davet et.](https://discord.com/oauth2/authorize?client_id=808007997044293662&permissions=8&scope=bot)
 
 ## İçerdiği sistemler
-Seviye sistemi
-Seviye rol sistemi (bakımda)
-Ödüllü kelime oyunu sistemi (bakımda)
++ Seviye sistemi
++ Seviye rol sistemi (bakımda)
++ Ödüllü kelime oyunu sistemi (bakımda)
 
 ## Hırsız, bu kodları sen yazmadın ki?
-Sunucuda yazılan kodlar bir bir commit şeklinde kayıt altında tutulmaktadır. Biraz göz atın.
+Bot için yazılan kodlar bir bir commit şeklinde kayıt altında tutulmaktadır. Biraz göz atın.
 
 ## GitHub'ta gözükmeyip yardım eden kişiler
 [@bmodb](https://github.com/bmodb) - tasarım

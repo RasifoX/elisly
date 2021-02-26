@@ -1,10 +1,10 @@
 module.exports = ({
+  enabled: true,
   aliases: ["komutlar"],
   description: "Botun komutlarını detaylı şekilde gösterir.",
   category: "genel",
-  fetch: {
-    me: true
-  },
+  permissions: [],
+  fetch: ["me"],
   cooldown: 5,
   execute: (async(client, db, message, args) => {
     const categories = ({
@@ -12,10 +12,9 @@ module.exports = ({
       bilgilendirme: "Bilgilendirme komutları",
       seviye: "Seviye komutları",
       eğlence: "Eğlence komutları",
-      geliştirici: "Geliştirici komutları"
+      geliştirici: "Geliştirici komutları",
+      araçlar: "Araç benzeri komutlar"
     });
-
-
 
     const commands = {};
     const commandKeys = client.commands.keyArray();
@@ -31,8 +30,6 @@ module.exports = ({
 
       commands[category].push(commandKeys[i]);
     }
-
-
 
     const pages = [];
 
@@ -59,25 +56,23 @@ module.exports = ({
       pages.push(page.join("\n"));
     }
 
-
-
-    const emojis = ["⏪", "◀️", "▶️", "⏩", "🗑️"];
-    let currentPage = 1;
-
-    const firstMessage = await message.reply("komutu özelden devam ettirmek istiyorsan 🇩, eğer buradan devam ettirmek istiyorsan 🇧 emojisine tıkla.");
-    await firstMessage.react("🇩");
-    await firstMessage.react("🇧");
-
-    const firstCollector = await firstMessage.createReactionCollector((reaction, user) => user.id === message.author.id && (["🇩", "🇧"]).includes(reaction.emoji.name), {
-      time: 30000,
-      max: 1
-    });
-
     const formatPage = ((page) => {
       return `\`\`\`asciidoc\n${page}\`\`\``;
     });
 
-    const handleReactions = (async(helpMessage, collector, reaction) => {
+    const helpMessage = await message.channel.send(formatPage(pages[0]));
+    const emojis = ["⏪", "◀️", "▶️", "⏩", "🗑️"];
+    let currentPage = 1;
+
+    for(let i = 0; i < emojis.length; i++) {
+      await helpMessage.react(emojis[i]);
+    }
+
+    const collector = await helpMessage.createReactionCollector((reaction, user) => user.id === message.author.id && emojis.includes(reaction.emoji.name), {
+      time: 30000
+    });
+
+    collector.on("collect", async(reaction) => {
       if(helpMessage.channel.type === "text" && message.guild.me.permissions.has("MANAGE_MESSAGES")) {
         await reaction.users.remove(message.author.id);
       }
@@ -102,63 +97,9 @@ module.exports = ({
       await helpMessage.edit(formatPage(pages[currentPage - 1]));
     });
 
-    const endCollector = (async(helpMessage, collected, reason) => {
-      if(reason === "time") {
-        await helpMessage.edit("Yardım komutu için verilen **30 saniye** bittiği için kullanım sonlandırıldı, bu mesaj **1.5 saniye** sonra silinecek.");
-        await helpMessage.delete({timeout: 1500});
-      } else if(reason === "dm-error") {
-        await firstMessage.edit("Özelden mesaj atılmasını kapattığın için komut çalıştırılamadı, bu mesaj **1.5 saniye** sonra silinecek.");
-        await firstMessage.delete({timeout: 1500});
-      }
-    });
-
-    firstCollector.on("collect", async(reaction) => {
-      if(message.guild.me.permissions.has("MANAGE_MESSAGES")) {
-        await reaction.users.remove(message.author.id);
-      }
-
-      if(reaction.emoji.name === "🇩") {
-        try {
-          const helpMessage = await message.author.send(formatPage(pages[0]));
-        } catch(error) {
-          await endCollector(null, 0, "dm-error");
-          return;
-        }
-
-        for(let i = 0; i < emojis.length; i++) {
-          await helpMessage.react(emojis[i]);
-        }
-
-        const secondCollector = await helpMessage.createReactionCollector((reaction, user) => user.id === message.author.id && emojis.includes(reaction.emoji.name), {
-          time: 30000
-        });
-
-        secondCollector.on("collect", async(...args) => handleReactions(helpMessage, secondCollector, ...args));
-        secondCollector.on("end", async(...args) => endCollector(helpMessage, ...args));
-      } else {
-        const helpMessage = await message.channel.send(formatPage(pages[0]));
-
-        for(let i = 0; i < emojis.length; i++) {
-          await helpMessage.react(emojis[i]);
-        }
-
-        const secondCollector = await helpMessage.createReactionCollector((reaction, user) => user.id === message.author.id && emojis.includes(reaction.emoji.name), {
-          time: 30000
-        });
-
-        secondCollector.on("collect", async(...args) => handleReactions(helpMessage, secondCollector, ...args));
-        secondCollector.on("end", async(...args) => endCollector(helpMessage, ...args));
-      }
-    });
-
-    firstCollector.on("end", async(collected, reason) => {
-      if(reason === "time") {
-        await firstMessage.edit("Yardım komutunun nerede çalıştırılacağının seçilmesi için verilen **30 saniye** bittiği için kullanım sonlandırıldı, bu mesaj **1.5 saniye** sonra silinecek.");
-      } else {
-        await firstMessage.edit("Komut çalıştırıldı, bu mesaj **1.5 saniye** sonra silinecek.");
-      }
-
-      await firstMessage.delete({timeout: 1500});
+    collector.on("end", async(collected, reason) => {
+      await helpMessage.edit("Yardım komutu için verilen **30 saniye** bittiği için kullanım sonlandırıldı, bu mesaj **1.5 saniye** sonra silinecek.");
+      await helpMessage.delete({timeout: 1500});
     });
   })
 });

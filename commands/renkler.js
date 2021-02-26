@@ -8,12 +8,12 @@ const {yiq} = require("yiq");
 const getMessageMentions = require("../methods/getMessageMentions.js");
 
 module.exports = ({
+  enabled: true,
   aliases: ["renkler"],
   description: "Belirtilen kullanıcının profil resminin renklerini gösterir.",
   category: "araçlar",
-  fetch: {
-    guild: true
-  },
+  permissions: [],
+  fetch: ["guild"],
   cooldown: 3,
   execute: (async(client, db, message, args) => {
     const messageMentions = await getMessageMentions(message, args);

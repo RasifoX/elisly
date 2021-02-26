@@ -23,6 +23,7 @@ module.exports = (async(client, db, message) => {
     await users.updateOne({id: newMessage.author.id}, {$set: userData});
 
     try {
+      const botOwner = await client.fetchApplication().then((application) => application.owner);
       const stoppedByCooldown = await cooldownMiddleware(client, db, newMessage, command, commandName, args);
 
       if(!stoppedByCooldown) {
@@ -38,8 +39,6 @@ module.exports = (async(client, db, message) => {
             GUILD_OWNER: "sunucu sahipliği"
           });
           const missingPermissions = [];
-
-          const botOwner = await client.fetchApplication().then((application) => application.owner);
 
           for(let i = 0; i < command.permissions.length; i++) {
             const permission = command.permissions[i];
@@ -58,6 +57,8 @@ module.exports = (async(client, db, message) => {
             return;
           }
         }
+
+        if(message.author.id !== botOwner.id && !command.enabled) return;
 
         await command.execute(client, db, newMessage, args);
       }

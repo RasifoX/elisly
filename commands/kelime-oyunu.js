@@ -5,10 +5,12 @@ const settings = require("../settings.js");
 const getMessageMentions = require("../methods/getMessageMentions.js");
 
 module.exports = ({
+  enabled: false,
   aliases: ["kelimeoyunu"],
   description: "Kelime oyunu hakkında bilgi verir.",
   category: "eğlence",
   permissions: ["MANAGE_CHANNELS"],
+  fetch: [],
   cooldown: 4,
   execute: (async(client, db, message, args) => {
     const messageMentions = await getMessageMentions(message, args);

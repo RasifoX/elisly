@@ -2,9 +2,12 @@ const Discord = require("discord.js-light");
 const settings = require("../settings.js");
 
 module.exports = ({
+  enabled: false,
   aliases: [],
   description: "Seviyeye özel rolleri ayarlar.",
   category: "seviye",
+  permissions: [],
+  fetch: [],
   cooldown: 3,
   execute: (async(client, db, message, args) => {
     const guildData = await db.collection("guilds").findOne({id: message.guild.id});

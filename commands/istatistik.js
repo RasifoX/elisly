@@ -8,9 +8,12 @@ const packageData = require("../package.json");
 const settings = require("../settings.js");
 
 module.exports = ({
+  enabled: true,
   aliases: ["hakkında", "bilgi", "i"],
   description: "Bot hakkında bilgi verir.",
   category: "bilgilendirme",
+  permissions: [],
+  fetch: [],
   cooldown: 3,
   execute: (async(client, db, message, args) => {
     const owner = await client.fetchApplication().then((application) => application.owner);

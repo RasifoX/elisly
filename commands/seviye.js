@@ -7,9 +7,12 @@ const levelFormat = require("../methods/levelFormat.js");
 Canvas.registerFont("./public/uni-sans-heavy.ttf", {family: "Uni Sans Heavy"});
 
 module.exports = ({
+  enabled: true,
   aliases: [],
   description: "O sunucuya ait seviyenizi gösterir.",
   category: "seviye",
+  permissions: [],
+  fetch: [],
   cooldown: 2,
   execute: (async(client, db, message, args) => {
     const messageMentions = await getMessageMentions(message, args);
