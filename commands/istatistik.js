@@ -1,4 +1,4 @@
-const Discord = require("discord.js-light");
+const {clientId, send, MessageEmbed} = require("elislycord");
 const fetch = require("node-fetch");
 const moment = require("moment");
 const os = require("os");
@@ -8,7 +8,7 @@ const packageData = require("../package.json");
 const settings = require("../settings.js");
 
 module.exports = ({
-  enabled: true,
+  enabled: true,s
   aliases: ["hakkında", "bilgi", "i"],
   description: "Bot hakkında bilgi verir.",
   category: "bilgilendirme",

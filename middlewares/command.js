@@ -1,6 +1,5 @@
 const Discord = require("discord.js-light");
 
-const applyFetch = require("../methods/applyFetch.js");
 const cooldownMiddleware = require("./cooldown.js");
 const settings = require("../settings.js");
 
@@ -17,14 +16,12 @@ module.exports = (async(client, db, message) => {
     const command = client.commands.has(c) ? client.commands.get(c) : client.commands.find((commandData) => commandData.aliases.includes(c));
     const commandName = client.commands.has(c) ? c : client.commands.findKey((commandData) => commandData.aliases.includes(c));
 
-    const newMessage = await applyFetch(message, command.fetch, command.permissions);
-
     userData.usedCommands += 1;
-    await users.updateOne({id: newMessage.author.id}, {$set: userData});
+    await users.updateOne({id: message.author.id}, {$set: userData});
 
     try {
       const botOwner = await client.fetchApplication().then((application) => application.owner);
-      const stoppedByCooldown = await cooldownMiddleware(client, db, newMessage, command, commandName, args);
+      const stoppedByCooldown = await cooldownMiddleware(client, db, message, command, commandName, args);
 
       if(!stoppedByCooldown) {
         if(command.permissions) {
@@ -43,11 +40,11 @@ module.exports = (async(client, db, message) => {
           for(let i = 0; i < command.permissions.length; i++) {
             const permission = command.permissions[i];
 
-            if(permission === "BOT_OWNER" && newMessage.author.id !== botOwner.id) {
+            if(permission === "BOT_OWNER" && message.author.id !== botOwner.id) {
               missingPermissions.push(permission);
-            } if(permission === "GUILD_OWNER" && newMessage.author.id !== newMessage.guild.ownerID) {
+            } else if(permission === "GUILD_OWNER" && message.author.id !== message.guild.ownerID) {
               missingPermissions.push(permission);
-            } else if(!(["BOT_OWNER", "GUILD_OWNER"]).includes(permission) && !newMessage.member.permissions.has(permission)) {
+            } else if(!(["BOT_OWNER", "GUILD_OWNER"]).includes(permission) && !message.member.permissions.has(permission)) {
               missingPermissions.push(permission);
             }
           }
@@ -60,7 +57,7 @@ module.exports = (async(client, db, message) => {
 
         if(message.author.id !== botOwner.id && !command.enabled) return;
 
-        await command.execute(client, db, newMessage, args);
+        await command.execute(client, db, message, args);
       }
     } catch(error) {
       await message.reply(`botta bir hata oluştu, lütfen geliştiriciye ulaş: \`${error.toString()}\``);
