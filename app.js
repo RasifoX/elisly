@@ -1,59 +1,54 @@
-const Discord = require("discord.js-light");
+const Elislycord = require("./packages/elislycord");
 const {MongoClient} = require("mongodb");
 const fs = require("fs");
 
+Elislycord.connect();
+
 const settings = require("./settings.js");
-const client = new Discord.Client({
-  cacheGuilds: false,
-  cacheChannels: false,
-  cacheOverwrites: false,
-  cacheRoles: false,
-  cacheEmojis: false,
-  cacheOverwrites: false,
-  disabledEvents: Object.keys(Discord.Constants.WSEvents).filter((key) => !(["READY", "MESSAGE_CREATE", "MESSAGE_REACTION_ADD"]).includes(key))
-});
 
-client.commands = new Discord.Collection();
+/*
+  client.commands = new Discord.Collection();
 
-MongoClient.connect(settings.mongoURL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}, async(error, databaseClient) => {
-  if(error) throw error;
-
-  const db = databaseClient.db("elisly");
-
-  fs.readdir("./events", async(error, files) => {
+  MongoClient.connect(settings.mongoURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, async(error, databaseClient) => {
     if(error) throw error;
 
-    const filesLength = files.length;
-    for(let i = 0; i < filesLength; i++) {
-      const file = files[i];
-      const eventName = file.slice(0, -3);
-      const event = require(`./events/${file}`);
+    const db = databaseClient.db("elisly");
 
-      client.on(eventName, async(...args) => {
-        await event(client, db, ...args);
-      });
+    fs.readdir("./events", async(error, files) => {
+      if(error) throw error;
 
-      console.log(`${eventName} olayı tanımlandı.`);
-    }
+      const filesLength = files.length;
+      for(let i = 0; i < filesLength; i++) {
+        const file = files[i];
+        const eventName = file.slice(0, -3);
+        const event = require(`./events/${file}`);
+
+        client.on(eventName, async(...args) => {
+          await event(client, db, ...args);
+        });
+
+        console.log(`${eventName} olayı tanımlandı.`);
+      }
+    });
+
+    fs.readdir("./commands", async(error, files) => {
+      if(error) throw error;
+
+      const filesLength = files.length;
+      for(let i = 0; i < filesLength; i++) {
+        const file = files[i];
+        const commandName = file.slice(0, -3);
+        const command = require(`./commands/${file}`);
+
+        client.commands.set(commandName, command);
+
+        console.log(`${commandName} komutu yüklendi.`);
+      }
+    });
   });
 
-  fs.readdir("./commands", async(error, files) => {
-    if(error) throw error;
-
-    const filesLength = files.length;
-    for(let i = 0; i < filesLength; i++) {
-      const file = files[i];
-      const commandName = file.slice(0, -3);
-      const command = require(`./commands/${file}`);
-
-      client.commands.set(commandName, command);
-
-      console.log(`${commandName} komutu yüklendi.`);
-    }
-  });
-});
-
-client.login(settings.token).catch(console.error);
+  client.login(settings.token).catch(console.error);
+*/

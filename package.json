@@ -9,10 +9,12 @@
   "dependencies": {
     "canvas": "^2.6.1",
     "common-tags": "^1.8.0",
+    "fast-zlib": "^2.0.0",
     "file-type": "^16.2.0",
     "get-image-colors": "^4.0.0",
     "moment": "^2.29.1",
     "mongodb": "^3.6.2",
+    "ws": "^7.4.3",
     "yiq": "^4.0.0"
   },
   "devDependencies": {
