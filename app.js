@@ -1,10 +1,19 @@
-const Elislycord = require("./packages/elislycord");
+const elislycord = require("./packages/elislycord");
 const {MongoClient} = require("mongodb");
 const fs = require("fs");
 
-Elislycord.connect();
-
 const settings = require("./settings.js");
+
+elislycord.connect({
+  "token": settings.token,
+  "activity": {
+    "name": `${settings.prefix}yardım`,
+    "type": 0
+  },
+  "status": "dnd"
+}, async(eventName, payload, client) => {
+  console.log(client)
+}).catch(console.error);
 
 /*
   client.commands = new Discord.Collection();
