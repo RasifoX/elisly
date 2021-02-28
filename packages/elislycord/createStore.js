@@ -22,6 +22,18 @@ module.exports = (() => {
     delete store[key];
   });
 
+  result.some = ((cb) => {
+    return Object.values(store).some(cb);
+  });
+
+  result.find = ((cb) => {
+    return Object.values(store).find(cb);
+  });
+
+  result.findKey = ((cb) => {
+    return Object.keys(store)[Object.values(store).indexOf(result.find(cb))];
+  });
+
   result.add = ((key, value) => {
     result.set(key, result.get(key) + value);
   });

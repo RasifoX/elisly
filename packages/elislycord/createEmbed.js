@@ -40,6 +40,12 @@ module.exports = (() => {
     return result;
   });
 
+  result.setTitle = ((title) => {
+    data.title = title.toString();
+
+    return result;
+  });
+
   result.setThumbnail = ((url) => {
     data.thumbnail.url = url.toString();
 

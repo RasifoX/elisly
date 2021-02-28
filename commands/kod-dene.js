@@ -1,3 +1,4 @@
+const elislycord = require("../packages/elislycord");
 const util = require("util");
 
 const settings = require("../settings.js");
@@ -5,15 +6,17 @@ const limitJoin = require("../methods/limitJoin.js");
 
 module.exports = ({
   enabled: true,
-  aliases: [],
+  aliases: ["eval"],
   description: "Kod denemeni sağlar.",
   category: "geliştirici",
   permissions: ["BOT_OWNER"],
   fetch: ["guild", "me", "member"],
   cooldown: 3,
-  execute: (async(client, db, message, args) => {
+  execute: (async(client, db, payload, args) => {
     if(args.length === 0) {
-      await message.reply("lütfen denemem için bir kod gir.");
+      await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+        "content": `<@!${payload.author.id}>, lütfen denemem için bir kod gir.`
+      });
       return;
     }
 
@@ -33,7 +36,7 @@ module.exports = ({
         });
       }
 
-      const embed = new Discord.MessageEmbed();
+      const embed = elislycord.createEmbed();
       embed.setTitle("Kod çalıştırıldı.");
       embed.setDescription(`${((executedAt[0] * 1000) + (executedAt[1] / 1e6)).toFixed(3)} milisaniyede çalıştırıldı.`);
       embed.addField("Kod", `\`\`\`javascript\n${limitJoin(args.join(" ").split(""), "", 1010)}\`\`\``);
@@ -41,14 +44,18 @@ module.exports = ({
       embed.addField("Sonuç türü", `\`\`\`\n${typeof result}\`\`\``);
       embed.setColor(settings.color);
 
-      await message.channel.send(embed);
+      await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+        "embed": embed
+      });
     } catch(error) {
-      const embed = new Discord.MessageEmbed();
+      const embed = elislycord.createEmbed();
       embed.setTitle("Bir hata oluştu.");
       embed.setDescription(`\`\`\`\n${error.toString()}\`\`\``);
       embed.setColor(0xE8251E);
 
-      await message.channel.send(embed);
+      await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+        "embed": embed
+      });
     }
   })
 });
