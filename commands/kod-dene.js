@@ -1,4 +1,3 @@
-const Discord = require("discord.js-light");
 const util = require("util");
 
 const settings = require("../settings.js");

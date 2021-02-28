@@ -4,60 +4,53 @@ const fs = require("fs");
 
 const settings = require("./settings.js");
 
-elislycord.connect({
-  "token": settings.token,
-  "activity": {
-    "name": `${settings.prefix}yardım`,
-    "type": 0
-  },
-  "status": "dnd"
-}, async(eventName, payload, client) => {
-  console.log(client)
-}).catch(console.error);
+const commands = elislycord.createStore();
+const events = elislycord.createStore();
 
-/*
-  client.commands = new Discord.Collection();
+MongoClient.connect(settings.mongoURL, {
+  "useNewUrlParser": true,
+  "useUnifiedTopology": true
+}, async(error, databaseClient) => {
+  if(error) throw error;
 
-  MongoClient.connect(settings.mongoURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }, async(error, databaseClient) => {
+  const db = databaseClient.db("elisly");
+
+  fs.readdir("./events", async(error, files) => {
     if(error) throw error;
 
-    const db = databaseClient.db("elisly");
-
-    fs.readdir("./events", async(error, files) => {
-      if(error) throw error;
-
-      const filesLength = files.length;
-      for(let i = 0; i < filesLength; i++) {
-        const file = files[i];
-        const eventName = file.slice(0, -3);
-        const event = require(`./events/${file}`);
-
-        client.on(eventName, async(...args) => {
-          await event(client, db, ...args);
-        });
-
-        console.log(`${eventName} olayı tanımlandı.`);
-      }
-    });
-
-    fs.readdir("./commands", async(error, files) => {
-      if(error) throw error;
-
-      const filesLength = files.length;
-      for(let i = 0; i < filesLength; i++) {
-        const file = files[i];
-        const commandName = file.slice(0, -3);
-        const command = require(`./commands/${file}`);
-
-        client.commands.set(commandName, command);
-
-        console.log(`${commandName} komutu yüklendi.`);
-      }
-    });
+    const filesLength = files.length;
+    for(let i = 0; i < filesLength; i++) {
+      const file = files[i];
+      const eventName = file.slice(0, -3);
+      const event = require(`./events/${file}`);
+      events.set(eventName, event);
+      require.cache[require.resolve(`./events/${file}`)];
+      console.log(`${eventName} olayı tanımlandı.`);
+    }
   });
 
-  client.login(settings.token).catch(console.error);
-*/
+  fs.readdir("./commands", async(error, files) => {
+    if(error) throw error;
+
+    const filesLength = files.length;
+    for(let i = 0; i < filesLength; i++) {
+      const file = files[i];
+      const commandName = file.slice(0, -3);
+      const command = require(`./commands/${file}`);
+      commands.set(commandName, command);
+      require.cache[require.resolve(`./commands/${file}`)];
+      console.log(`${commandName} komutu yüklendi.`);
+    }
+  });
+
+  elislycord.connect({
+    "token": settings.token,
+    "activity": {
+      "name": `${settings.prefix}yardım`,
+      "type": 0
+    },
+    "status": "dnd"
+  }, async(eventName, payload, client) => {
+    // events.get(eventName)(client, db, payload)
+  }).catch(console.error);
+});

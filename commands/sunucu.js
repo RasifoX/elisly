@@ -1,4 +1,3 @@
-const Discord = require("discord.js-light");
 const moment = require("moment");
 
 const settings = require("../settings.js");

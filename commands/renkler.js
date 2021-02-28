@@ -1,4 +1,3 @@
-const Discord = require("discord.js-light");
 const fetch = require("node-fetch");
 const getColors = require("get-image-colors");
 const FileType = require("file-type");

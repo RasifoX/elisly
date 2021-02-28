@@ -1,4 +1,3 @@
-const Discord = require("discord.js-light");
 const Canvas = require("canvas");
 const settings = require("../settings.js");
 const getMessageMentions = require("../methods/getMessageMentions.js");

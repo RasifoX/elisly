@@ -2,7 +2,6 @@ const settings = require("../settings.js");
 
 const levelingMiddleware = require("../middlewares/leveling.js");
 const commandMiddleware = require("../middlewares/command.js");
-const changeMessage = require("../methods/changeMessage.js");
 
 module.exports = (async(client, db, message) => {
   if(message.channel.type !== "text" || message.author.bot) return;

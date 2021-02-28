@@ -1,4 +1,4 @@
-const {reply, send, MessageEmbed} = require("elislycord");
+const {reply, send, MessageEmbed} = require("../packages/elislycord");
 
 module.exports = ({
   enabled: false,

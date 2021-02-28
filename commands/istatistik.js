@@ -1,4 +1,4 @@
-const {clientId, send, MessageEmbed} = require("elislycord");
+const {clientId, send, MessageEmbed} = require("../packages/elislycord");
 const fetch = require("node-fetch");
 const moment = require("moment");
 const os = require("os");
@@ -8,7 +8,7 @@ const packageData = require("../package.json");
 const settings = require("../settings.js");
 
 module.exports = ({
-  enabled: true,s
+  enabled: true,
   aliases: ["hakkında", "bilgi", "i"],
   description: "Bot hakkında bilgi verir.",
   category: "bilgilendirme",

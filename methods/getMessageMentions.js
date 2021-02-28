@@ -1,5 +1,3 @@
-const Discord = require("discord.js-light");
-
 module.exports = (async(message, args) => {
   const roles = new Discord.Collection();
   const users = new Discord.Collection();

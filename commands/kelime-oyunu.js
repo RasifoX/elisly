@@ -1,4 +1,3 @@
-const Discord = require("discord.js");
 const commonTags = require("common-tags");
 const moment = require("moment");
 const settings = require("../settings.js");

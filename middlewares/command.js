@@ -1,5 +1,3 @@
-const Discord = require("discord.js-light");
-
 const cooldownMiddleware = require("./cooldown.js");
 const settings = require("../settings.js");
 
