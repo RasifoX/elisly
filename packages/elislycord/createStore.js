@@ -40,7 +40,11 @@ module.exports = (() => {
 
   result.size = (() => {
     return Object.keys(store).length;
-  })
+  });
+
+  result.byIndex = ((index) => {
+    return Object.values(store)[index];
+  });
 
   return result;
 });
