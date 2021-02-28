@@ -26,5 +26,9 @@ module.exports = (() => {
     result.set(key, result.get(key) + value);
   });
 
+  result.size = (() => {
+    return Object.keys(store).length;
+  })
+
   return result;
 });

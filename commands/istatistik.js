@@ -1,7 +1,8 @@
-const {clientId, send, MessageEmbed} = require("../packages/elislycord");
+const elislycord = require("../packages/elislycord");
 const fetch = require("node-fetch");
 const moment = require("moment");
 const os = require("os");
+const store = require("../store.js");
 
 const limitJoin = require("../methods/limitJoin.js");
 const packageData = require("../package.json");
@@ -15,11 +16,8 @@ module.exports = ({
   permissions: [],
   fetch: [],
   cooldown: 3,
-  execute: (async(client, db, message, args) => {
-    const owner = await client.fetchApplication().then((application) => application.owner);
-    const invite = await client.generateInvite({
-      permissions: ["ADMINISTRATOR"]
-    });
+  execute: (async(client, db, payload, args) => {
+    const owner = await elislycord.request(client, "GET", elislycord.routes.application()).then((application) => application.owner);
 
     const contributors = [];
     const links = [];
@@ -50,10 +48,10 @@ module.exports = ({
       url: "https://github.com/bmodb"
     });
 
-    const embed = new Discord.MessageEmbed();
-    embed.setThumbnail(client.user.displayAvatarURL());
+    const embed = elislycord.createEmbed();
+    embed.setThumbnail(elislycord.routes.avatar(client.get("user")));
     embed.addField("Sürüm", packageData.version);
-    embed.addField("Geliştirici", owner.tag);
+    embed.addField("Geliştirici", `${owner.username}#${owner.discriminator}`);
     embed.addField("Yardımcı olanlar", contributors.length !== 0 ? limitJoin(contributors.map((contributor) => `[${contributor.name}](${contributor.url})`), " **|** ", 8) : "Bulunmuyor");
 
     if(settings.githubRepository) {
@@ -61,23 +59,25 @@ module.exports = ({
       embed.addField("Kullanılan yazılım dilleri", limitJoin(Object.keys(languages), " **|** ", 5));
     }
 
-    embed.addField("Yazılım sürümleri", `node ${process.version}\ndiscord.js ${Discord.version}`);
-    embed.addField("Komutlar", client.commands.size);
+    embed.addField("Yazılım sürümleri", `node ${process.version}\nelislycord v${elislycord.version}`);
+    embed.addField("Komutlar", store.commands.size());
     embed.addField("Bellek kullanımı", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB **|** ${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`);
 
-    links.push(`[Botu ekle](${invite})`);
+    links.push(`[Botu ekle](https://discord.com/oauth2/authorize?client_id=${client.get("user").id}&permissions=8&scope=bot)`);
 
     if(settings.githubRepository) {
       links.push(`[GitHub](https://github.com/${settings.githubRepository})`);
     }
 
     if(settings.supportServer) {
-      links.push(`[Destek sunucusu](https://dsicord.gg/${settings.supportServer})`);
+      links.push(`[Destek sunucusu](https://discord.gg/${settings.supportServer})`);
     }
 
     embed.addField("Linkler", links.join(" **|** "));
     embed.setColor(settings.color);
 
-    await message.channel.send(embed);
+    await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+      embed: embed.toJSON()
+    });
   })
 });

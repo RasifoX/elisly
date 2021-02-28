@@ -18,11 +18,8 @@ module.exports = (async(options, callback) => {
     {
       const len = data.length;
       const flush = (len > 4) && (data[len - 4] === 0x00) && (data[len - 3] === 0x00) && (data[len - 2] === 0xff) && (data[len - 1] === 0xff);
-
       data = inflator.process(data, flush && zlib.Z_SYNC_FLUSH);
-
       if(!flush) return;
-
       data = JSON.parse(data.toString());
     }
 
