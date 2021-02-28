@@ -2,10 +2,8 @@ const elislycord = require("./packages/elislycord");
 const {MongoClient} = require("mongodb");
 const fs = require("fs");
 
+const store = require("./store.js");
 const settings = require("./settings.js");
-
-const commands = elislycord.createStore();
-const events = elislycord.createStore();
 
 MongoClient.connect(settings.mongoURL, {
   "useNewUrlParser": true,
@@ -23,7 +21,7 @@ MongoClient.connect(settings.mongoURL, {
       const file = files[i];
       const eventName = file.slice(0, -3);
       const event = require(`./events/${file}`);
-      events.set(eventName, event);
+      store.events.set(eventName, event);
       require.cache[require.resolve(`./events/${file}`)];
       console.log(`${eventName} olayı tanımlandı.`);
     }
@@ -37,7 +35,7 @@ MongoClient.connect(settings.mongoURL, {
       const file = files[i];
       const commandName = file.slice(0, -3);
       const command = require(`./commands/${file}`);
-      commands.set(commandName, command);
+      store.commands.set(commandName, command);
       require.cache[require.resolve(`./commands/${file}`)];
       console.log(`${commandName} komutu yüklendi.`);
     }
@@ -51,6 +49,8 @@ MongoClient.connect(settings.mongoURL, {
     },
     "status": "dnd"
   }, async(eventName, payload, client) => {
-    // events.get(eventName)(client, db, payload)
+    if(store.events.has(eventName)) {
+      store.events.get(eventName)(client, db, payload);
+    }
   }).catch(console.error);
 });

@@ -1,4 +1,4 @@
-const {reply, send, MessageEmbed} = require("../packages/elislycord");
+const elislycord = require("../packages/elislycord");
 
 module.exports = ({
   enabled: false,
@@ -8,7 +8,9 @@ module.exports = ({
   permissions: [],
   fetch: [],
   cooldown: 1.5,
-  execute: (async(client, db, data, args) => {
-    await reply(data.author.id, `${client.ws.ping.toFixed(2)} milisaniye gecikme süresine sahibim.`);
+  execute: (async(client, db, payload, args) => {
+    await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+      "content": `pong`
+    });
   })
 });

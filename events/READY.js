@@ -1,15 +1,6 @@
 const settings = require("../settings.js");
 
 module.exports = (async(client, db) => {
-  await client.user.setPresence({
-    activity: {
-      name: `${settings.prefix}yardım`
-    },
-    status: "idle"
-  });
-
-  console.log("Durum ayarlandı.");
-
   const users = db.collection("users");
   const usersData = await users.find({$cooldown: ((d) => JSON.stringify(d) !== "{}")}).toArray();
 

@@ -14,6 +14,10 @@ module.exports = (() => {
     return store[key];
   });
 
+  result.has = ((key) => {
+    return store.hasOwnProperty(key);
+  })
+
   result.delete = ((key) => {
     delete store[key];
   });
