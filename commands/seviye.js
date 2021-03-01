@@ -18,7 +18,6 @@ module.exports = ({
   cooldown: 2,
   execute: (async(client, db, payload, args) => {
     const messageMentions = await getMessageMentions(payload, args);
-    console.log(messageMentions.users)
     const user = messageMentions.users.size() === 1 ? messageMentions.users.byIndex(0) : payload.author;
     const usersData = await db.collection("users").find({[`xp.${payload.guild_id}`]: {$exists: true}}).toArray();
 

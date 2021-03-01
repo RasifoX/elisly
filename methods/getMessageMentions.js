@@ -1,17 +1,19 @@
-module.exports = (async(message, args) => {
-  const roles = new Discord.Collection();
-  const users = new Discord.Collection();
-  const channels = new Discord.Collection();
-  const members = new Discord.Collection();
+const elislycord = require("../packages/elislycord");
+
+module.exports = (async(payload, args) => {
+  const roles = elislycord.createStore();
+  const users = elislycord.createStore();
+  const channels = elislycord.createStore();
+  const members = elislycord.createStore();
 
   for(let i = 0; i < args.length; i++) {
     const arg = args[i];
 
     if(arg.startsWith("<#")) {
       try {
-        const channel = await message.guild.channels.fetch(arg.slice(2, -1), false);
+        const channel = await elislycord.request("GET", elislycord.routes.channel(arg.slice(2, -1)));
         channels.set(channel.id, channel);
-      } catch(err) {console.log(err)}
+      } catch(err) {}
     } else if(arg.startsWith("<@&")) {
       try {
         const role = await message.guild.roles.fetch(arg.slice(3, -1), false);
@@ -19,21 +21,21 @@ module.exports = (async(message, args) => {
       } catch(err) {}
     } else if(arg.startsWith("<@!")) {
       try {
-        const member = await message.guild.members.fetch(arg.slice(3, -1), false);
-        const user = await message.client.users.fetch(arg.slice(3, -1), false);
+        const member = {id: 0};
+        const user = await elislycord.request("GET", elislycord.routes.user(arg.slice(3, -1)))
         members.set(member.id, member);
         users.set(user.id, user);
       } catch(err) {}
     } else if(arg.startsWith("<@")) {
       try {
-        const member = await message.guild.members.fetch(arg.slice(2, -1), false);
-        const user = await message.client.users.fetch(arg.slice(2, -1), false);
+        const member = {id: 0};
+        const user = await elislycord.request("GET", elislycord.routes.user(arg.slice(3, -1)));
         members.set(member.id, member);
         users.set(user.id, user);
       } catch(err) {}
     } else if(!isNaN(arg) && !arg.includes("+") && !arg.includes("-") && arg.length === 18) {
       try {
-        const channel = await message.guild.channels.fetch(arg, false);
+        const channel = await elislycord.request("GET", elislycord.routes.channel(arg));
         channels.set(channel.id, channel);
       } catch(err) {}
 
@@ -43,8 +45,8 @@ module.exports = (async(message, args) => {
       } catch(err) {}
 
       try {
-        const member = await message.guild.members.fetch(arg, false);
-        const user = await message.client.users.fetch(arg, false);
+        const member = {id: 0};
+        const user = await elislycord.request("GET", elislycord.routes.user(arg));
         members.set(member.id, member);
         users.set(user.id, user);
       } catch(err) {}
