@@ -1,5 +1,4 @@
 const commonTags = require("common-tags");
-const moment = require("moment");
 const settings = require("../settings.js");
 const getMessageMentions = require("../methods/getMessageMentions.js");
 
