@@ -1,6 +1,6 @@
 const elislycord = require("../packages/elislycord");
+const etime = require("../packages/etime");
 const fetch = require("node-fetch");
-const moment = require("moment");
 const os = require("os");
 const store = require("../store.js");
 
@@ -56,7 +56,7 @@ module.exports = ({
     embed.addField("Sunucu sayısı", client.get("guildCount"));
 
     if(settings.githubRepository) {
-      embed.addField("Son güncellenme tarihi", moment(repository.pushed_at).locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
+      embed.addField("Son güncellenme tarihi", etime(repository.pushed_at));
       embed.addField("Kullanılan yazılım dilleri", limitJoin(Object.keys(languages), " **|** ", 5));
     }
 

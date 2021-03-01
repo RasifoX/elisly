@@ -1,5 +1,5 @@
 # elislycord
-Elisly tarafından kullanılan Discord API ile bağlanmayı sağlayan bir kütüphanedir.
+Elisly tarafından kullanılan Discord API ile bağlanmayı sağlayan bir paketidir.
 
 ## Özellikler
 + zlib ile şifrelemek

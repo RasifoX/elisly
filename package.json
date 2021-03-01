@@ -13,7 +13,6 @@
     "file-type": "^16.2.0",
     "form-data": "^2.3.3",
     "get-image-colors": "^4.0.0",
-    "moment": "^2.29.1",
     "mongodb": "^3.6.2",
     "node-fetch": "^2.6.1",
     "ws": "^7.4.3",

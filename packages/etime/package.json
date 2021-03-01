@@ -1,7 +1,7 @@
 {
   "name": "etime",
   "version": "1.0.0",
-  "description": "moment alternatifi olarak Elisly için geliştirilmiş bir tarih kütüphanesidir.",
+  "description": "moment alternatifi olarak Elisly için geliştirilmiş bir tarih paketidir.",
   "main": "./src/index.js",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
+const etime = require("../packages/etime");
 const elislycord = require("../packages/elislycord");
 const getTimestamp = require("../methods/getTimestamp.js");
-const moment = require("moment");
 
 const settings = require("../settings.js");
 
@@ -54,7 +54,7 @@ module.exports = ({
     embed.addField("ID", guild.id);
     embed.addField("Sahip", `<@!${guild.owner_id}>`);
     embed.addField("Boost sayısı / seviyesi", `${guild.premium_subscription_count || 0} **/** ${guild.premium_tier} seviye`);
-    embed.addField("Oluşturulma tarihi", moment(getTimestamp(guild.id)).add(3, "hours").locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
+    embed.addField("Oluşturulma tarihi", etime(getTimestamp(guild.id) + (3 * 60 * 60 * 1000)));
     embed.addField("Aktif özellikler", guild.features.length !== 0 ? guild.features.map((feature) => features[feature]).join(" **|** ") : "Bulunmuyor");
     embed.addField("Konum", regions[guild.region]);
     embed.setColor(settings.color);
