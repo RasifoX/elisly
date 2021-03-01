@@ -24,7 +24,7 @@ module.exports = (async(client, db, payload) => {
     if(Object.keys(guildData.levelRanks).includes(newLevel.toString())) {
       await message.reply(`tebrikler artık **${newLevel}** seviyesiniz, bu seviyeye özel olarak atanan ${message.guild.roles.cache.get(guildData.levelRanks[newLevel.toString()]).name} rolünü elde ettiniz.`);
     } else {
-      await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+      await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
         "content": `<@!${payload.author.id}>, tebrikler artık **${newLevel}** seviyesiniz.`
       });
     }

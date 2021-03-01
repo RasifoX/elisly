@@ -20,7 +20,7 @@ module.exports = (async(client, db, payload) => {
     await users.updateOne({id: payload.author.id}, {$set: userData});
 
     try {
-      const botOwner = await elislycord.request(client, "GET", elislycord.routes.application()).then((application) => application.owner);
+      const botOwner = await elislycord.request("GET", elislycord.routes.application()).then((application) => application.owner);
       const stoppedByCooldown = await cooldownMiddleware(client, db, payload, command, commandName, args);
 
       if(!stoppedByCooldown) {
@@ -60,7 +60,7 @@ module.exports = (async(client, db, payload) => {
         await command.execute(client, db, payload, args);
       }
     } catch(error) {
-      await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+      await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
         "content": `<@!${payload.author.id}> botta bir hata oluştu, lütfen geliştiriciye ulaş: \`${error.toString()}\``
       });
       console.log(error);

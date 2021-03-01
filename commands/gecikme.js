@@ -9,8 +9,8 @@ module.exports = ({
   fetch: [],
   cooldown: 1.5,
   execute: (async(client, db, payload, args) => {
-    await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
-      "content": `**${client.get("ping")} milisaniye** gecikme süresine sahibim.`
+    await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
+      "content": `**${client.get("ping") || 0} milisaniye** gecikme süresine sahibim.`
     });
   })
 });

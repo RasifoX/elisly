@@ -7,7 +7,7 @@ module.exports = (async(client, db, payload, command, commandName, args) => {
   if(userData.cooldowns.hasOwnProperty(commandName)) {
     const cooldownData = userData.cooldowns[commandName];
     const remaining = (cooldownData.cooldown * 1000) - (Date.now() - cooldownData.usedAt);
-    await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+    await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
       "content": `bu komutu kullanmak için **${(remaining / 1000).toFixed(2)} saniye** beklemelisin.`
     });
 

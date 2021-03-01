@@ -9,7 +9,7 @@ const levelFormat = require("../methods/levelFormat.js");
 Canvas.registerFont("./public/uni-sans-heavy.ttf", {family: "Uni Sans Heavy"});
 
 module.exports = ({
-  enabled: true,
+  enabled: false,
   aliases: [],
   description: "O sunucuya ait seviyenizi gösterir.",
   category: "seviye",
@@ -70,7 +70,7 @@ module.exports = ({
     ctx.fillStyle = "#B3B3B3";
     ctx.fillText(`GEREKEN ${levelData.needLevel - levelData.xp} XP`, 720, 360);
 
-    await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+    await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
       files: [{
         name: "seviye.png",
         blob: canvas.toBuffer()

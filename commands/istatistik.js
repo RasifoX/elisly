@@ -17,7 +17,7 @@ module.exports = ({
   fetch: [],
   cooldown: 3,
   execute: (async(client, db, payload, args) => {
-    const owner = await elislycord.request(client, "GET", elislycord.routes.application()).then((application) => application.owner);
+    const owner = await elislycord.request("GET", elislycord.routes.application()).then((application) => application.owner);
 
     const contributors = [];
     const links = [];
@@ -76,7 +76,7 @@ module.exports = ({
     embed.addField("Linkler", links.join(" **|** "));
     embed.setColor(settings.color);
 
-    await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+    await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
       embed: embed.toJSON()
     });
   })

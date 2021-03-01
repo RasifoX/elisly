@@ -6,7 +6,7 @@ const levelingMiddleware = require("../middlewares/leveling.js");
 const commandMiddleware = require("../middlewares/command.js");
 
 module.exports = (async(client, db, payload) => {
-  const channel = await elislycord.request(client, "GET", elislycord.routes.channel(payload.channel_id));
+  const channel = await elislycord.request("GET", elislycord.routes.channel(payload.channel_id));
   if(channel.type !== 0 || !payload.author || payload.author.bot) return;
 
   const users = db.collection("users");

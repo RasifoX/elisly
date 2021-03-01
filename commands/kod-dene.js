@@ -14,7 +14,7 @@ module.exports = ({
   cooldown: 3,
   execute: (async(client, db, payload, args) => {
     if(args.length === 0) {
-      await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+      await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
         "content": `<@!${payload.author.id}>, lütfen denemem için bir kod gir.`
       });
       return;
@@ -44,7 +44,7 @@ module.exports = ({
       embed.addField("Sonuç türü", `\`\`\`\n${typeof result}\`\`\``);
       embed.setColor(settings.color);
 
-      await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+      await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
         "embed": embed
       });
     } catch(error) {
@@ -53,7 +53,7 @@ module.exports = ({
       embed.setDescription(`\`\`\`\n${error.toString()}\`\`\``);
       embed.setColor(0xE8251E);
 
-      await elislycord.request(client, "POST", elislycord.routes.sendMessage(payload.channel_id), {
+      await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
         "embed": embed
       });
     }

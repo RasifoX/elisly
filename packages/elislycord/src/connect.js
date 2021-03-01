@@ -1,3 +1,4 @@
+const privateStore = require("./privateStore.js");
 const client = require("./client.js");
 
 module.exports = (async(options, callback) => {
@@ -59,7 +60,7 @@ module.exports = (async(options, callback) => {
       if(data.t === "READY") {
         client.set("user", data.d.user);
         client.set("guildCount", data.d.guilds.length);
-        client.set("token", options.token);
+        privateStore.set("token", options.token);
       } else if(data.t === "GUILD_CREATE") {
         client.add("guildCount", 1);
       } else if(data.t === "GUILD_DELETE") {

@@ -1,14 +1,15 @@
 const FormData = require("form-data");
 const fetch = require("node-fetch");
+const privateStore = require("./privateStore.js");
 
-module.exports = (async(client, method, url, body = {}) => {
+module.exports = (async(method, url, body = {}) => {
   let data;
 
   if(method === "GET") {
     data = await fetch(`https://discord.com/api/v8${url}`, {
       method,
       "headers": {
-        "Authorization": `Bot ${client.get("token")}`,
+        "Authorization": `Bot ${privateStore.get("token")}`,
         "Content-Type": "application/json"
       }
     }).then((result) => result.json())
@@ -30,7 +31,7 @@ module.exports = (async(client, method, url, body = {}) => {
       data = await fetch(`https://discord.com/api/v8${url}`, {
         method,
         "headers": {
-          "Authorization": `Bot ${client.get("token")}`,
+          "Authorization": `Bot ${privateStore.get("token")}`,
           "Content-Type": form.getHeaders()["content-type"]
         },
         "body": form
@@ -39,7 +40,7 @@ module.exports = (async(client, method, url, body = {}) => {
       data = await fetch(`https://discord.com/api/v8${url}`, {
         method,
         "headers": {
-          "Authorization": `Bot ${client.get("token")}`,
+          "Authorization": `Bot ${privateStore.get("token")}`,
           "Content-Type": "application/json"
         },
         "body": JSON.stringify(body)
