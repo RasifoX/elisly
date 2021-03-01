@@ -47,7 +47,7 @@ module.exports = (() => {
   });
 
   result.setThumbnail = ((url) => {
-    data.thumbnail.url = url.toString();
+    data.thumbnail.url = url !== null ? url.toString() : null;
 
     return result;
   });

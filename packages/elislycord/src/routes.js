@@ -11,5 +11,12 @@ module.exports = ({
     return (user.avatar ?
       (isGIF ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.gif` : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`)
     : `https://cdn.discordapp.com/embed/avatars/${user.discriminator % 5}.png`);
+  }),
+  icon: ((guild) => {
+    const isGIF = guild.icon && guild.icon.startsWith("a_");
+
+    return (guild.icon ?
+      (isGIF ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.gif` : `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`)
+    : null)
   })
 });

@@ -1,16 +1,19 @@
+const elislycord = require("../packages/elislycord");
+const getTimestamp = require("../methods/getTimestamp.js");
 const moment = require("moment");
 
 const settings = require("../settings.js");
 
 module.exports = ({
-  enabled: false,
+  enabled: true,
   aliases: ["sb", "sunucu-bilgi"],
   description: "O sunucu hakkında bilgi verir.",
   category: "bilgilendirme",
   permissions: [],
   fetch: ["guild"],
   cooldown: 3,
-  execute: (async(client, db, message, args) => {
+  execute: (async(client, db, payload, args) => {
+    const guild = await elislycord.request("GET", elislycord.routes.guild(payload.guild_id));
     const features = ({
       ANIMATED_ICON: "Animasyonlu simge",
       BANNER: "Banner",
@@ -46,16 +49,18 @@ module.exports = ({
       "us-central": "Orta ABD"
     });
 
-    const embed = new Discord.MessageEmbed();
-    embed.setThumbnail(message.guild.iconURL({dynamic: true}));
-    embed.addField("ID", message.guild.id);
-    embed.addField("Sahip", message.guild.owner.toString());
-    embed.addField("Boost sayısı / seviyesi", `${message.guild.premiumSubscriptionCount} **/** ${message.guild.premiumTier} seviye`);
-    embed.addField("Oluşturulma tarihi", moment(message.guild.createdTimestamp).add(3, "hours").locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
-    embed.addField("Aktif özellikler", message.guild.features.length !== 0 ? message.guild.features.map((feature) => features[feature]).join(" **|** ") : "Bulunmuyor");
-    embed.addField("Konum", regions[message.guild.region]);
+    const embed = elislycord.createEmbed();
+    embed.setThumbnail(elislycord.routes.icon(guild));
+    embed.addField("ID", guild.id);
+    embed.addField("Sahip", `<@!${guild.owner_id}>`);
+    embed.addField("Boost sayısı / seviyesi", `${guild.premium_subscription_count || 0} **/** ${guild.premium_tier} seviye`);
+    embed.addField("Oluşturulma tarihi", moment(getTimestamp(guild.id)).add(3, "hours").locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));
+    embed.addField("Aktif özellikler", guild.features.length !== 0 ? guild.features.map((feature) => features[feature]).join(" **|** ") : "Bulunmuyor");
+    embed.addField("Konum", regions[guild.region]);
     embed.setColor(settings.color);
 
-    await message.channel.send(embed);
+    await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
+      "embed": embed.toJSON()
+    });
   })
 });
