@@ -23,6 +23,6 @@ module.exports = (async(client, db) => {
   console.log("Botun hazırlanması tamamlandı.");
 
   setTimeout(async() => {
-    freeMemory()
+    freeMemory();
   }, 5000);
 });

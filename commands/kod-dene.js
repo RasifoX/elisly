@@ -1,4 +1,6 @@
 const elislycord = require("../packages/elislycord");
+const etime = require("../packages/etime");
+const store = require("../store.js");
 const util = require("util");
 
 const settings = require("../settings.js");

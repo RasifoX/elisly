@@ -1,9 +1,5 @@
 module.exports = (() => {
-  const cache = Object.keys(require.cache);
-
-  for(let i = 0; i < cache.length; i++) {
-    delete require.cache[require.resolve(cache[i])];
-  }
-
+  delete require.main;
+  delete require.cache;
   console.log("Gereksiz bellek temizlendi.");
 });
