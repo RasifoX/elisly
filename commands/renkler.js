@@ -1,3 +1,4 @@
+const elislycord = require("../packages/elislycord");
 const fetch = require("node-fetch");
 const getColors = require("get-image-colors");
 const FileType = require("file-type");
@@ -14,11 +15,11 @@ module.exports = ({
   permissions: [],
   fetch: ["guild"],
   cooldown: 3,
-  execute: (async(client, db, message, args) => {
-    const messageMentions = await getMessageMentions(message, args);
-    const user = messageMentions.users.size === 1 ? messageMentions.users.first() : message.author;
+  execute: (async(client, db, payload, args) => {
+    const messageMentions = await getMessageMentions(payload, args);
+    const user = messageMentions.users.size() === 1 ? messageMentions.users.byIndex(0) : payload.author;
 
-    const avatarBuffer = await fetch(user.displayAvatarURL({dynamic: true, format: "png"})).then((result) => result.buffer());
+    const avatarBuffer = await fetch(elislycord.routes.avatar(user).replace(".gif", ".png")).then((result) => result.buffer());
     const fileType = await FileType.fromBuffer(avatarBuffer).then((result) => result.mime);
     const colors = await getColors(avatarBuffer, fileType);
 
@@ -38,9 +39,11 @@ module.exports = ({
       ctx.fillText(`rgb(${color._rgb[0]}, ${color._rgb[1]}, ${color._rgb[2]})`, ((i * 200) + 100), 170);
     }
 
-    const image = new Discord.MessageAttachment(canvas.toBuffer(), "seviye.png");
-    message.channel.send({
-      files: [image]
+    await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
+      files: [{
+        name: "renkler.png",
+        blob: canvas.toBuffer()
+      }]
     });
   })
 });

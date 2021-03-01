@@ -1,5 +1,5 @@
 module.exports = ({
-  enabled: true,
+  enabled: false,
   aliases: ["komutlar"],
   description: "Botun komutlarını detaylı şekilde gösterir.",
   category: "genel",

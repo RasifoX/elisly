@@ -5,7 +5,7 @@ const settings = require("../settings.js");
 const limitJoin = require("../methods/limitJoin.js");
 
 module.exports = ({
-  enabled: true,
+  enabled: false,
   aliases: ["eval"],
   description: "Kod denemeni sağlar.",
   category: "geliştirici",

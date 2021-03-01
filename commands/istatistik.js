@@ -53,6 +53,7 @@ module.exports = ({
     embed.addField("Sürüm", packageData.version);
     embed.addField("Geliştirici", `${owner.username}#${owner.discriminator}`);
     embed.addField("Yardımcı olanlar", contributors.length !== 0 ? limitJoin(contributors.map((contributor) => `[${contributor.name}](${contributor.url})`), " **|** ", 8) : "Bulunmuyor");
+    embed.addField("Sunucu sayısı", client.get("guildCount"));
 
     if(settings.githubRepository) {
       embed.addField("Son güncellenme tarihi", moment(repository.pushed_at).locale("tr").format("DD MMMM YYYY ddd HH:mm:ss"));

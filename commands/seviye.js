@@ -9,7 +9,7 @@ const levelFormat = require("../methods/levelFormat.js");
 Canvas.registerFont("./public/uni-sans-heavy.ttf", {family: "Uni Sans Heavy"});
 
 module.exports = ({
-  enabled: false,
+  enabled: true,
   aliases: [],
   description: "O sunucuya ait seviyenizi gösterir.",
   category: "seviye",

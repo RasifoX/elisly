@@ -3,7 +3,7 @@ const moment = require("moment");
 const settings = require("../settings.js");
 
 module.exports = ({
-  enabled: true,
+  enabled: false,
   aliases: ["sb", "sunucu-bilgi"],
   description: "O sunucu hakkında bilgi verir.",
   category: "bilgilendirme",

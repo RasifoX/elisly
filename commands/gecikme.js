@@ -1,7 +1,7 @@
 const elislycord = require("../packages/elislycord");
 
 module.exports = ({
-  enabled: false,
+  enabled: true,
   aliases: ["ping"],
   description: "Botun gecikme süresini gösterir.",
   category: "genel",
