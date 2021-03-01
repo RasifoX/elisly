@@ -1,11 +1,10 @@
-# elislycord
-Elisly tarafından kullanılan Discord API ile bağlanmayı sağlayan bir kütüphanedir.
+# etime
+moment alternatifi olarak Elisly için geliştirilmiş bir tarih kütüphanesidir.
 
 ## Özellikler
-+ zlib ile şifrelemek
-+ 0 cache
-+ WebSocket bağlantısı
-+ API'ye istek gönderme sistemi
++ ~~Tarih formatlama~~
++ ~~Süreç elde etme ve formatlama~~
++ ~~Süre ekleme/çıkarma sistemi~~
 
 ## Lisans
 Kütüphanenin kodları [MIT lisansı](https://github.com/acarkh/elisly/blob/main/LICENSE) ile korunmaktadır. Herhangi bir kopyalanma durumunda lisans koşulları ihlal edilirse gerekli işlemler yapılacaktır.

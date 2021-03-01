@@ -1,16 +1,15 @@
 {
-  "name": "elislycord",
-  "version": "1.0.1",
-  "description": "Elisly tarafından kullanılan Discord API ile bağlanmayı sağlayan bir kütüphanedir.",
+  "name": "etime",
+  "version": "1.0.0",
+  "description": "moment alternatifi olarak Elisly için geliştirilmiş bir tarih kütüphanesidir.",
   "main": "./src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/acarkh/elisly.git"
   },
   "keywords": [
-    "elisly",
-    "discord",
-    "nodejs"
+    "moment",
+    "etime"
   ],
   "author": "acarkh",
   "license": "MIT",
