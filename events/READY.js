@@ -1,4 +1,5 @@
 const settings = require("../settings.js");
+const freeMemory = require("../methods/freeMemory.js");
 
 module.exports = (async(client, db) => {
   const users = db.collection("users");
@@ -19,6 +20,9 @@ module.exports = (async(client, db) => {
   }
 
   console.log("Komut için bekleme süreleri sisteme işlendi.");
-
   console.log("Botun hazırlanması tamamlandı.");
+
+  setTimeout(async() => {
+    freeMemory()
+  }, 5000);
 });
