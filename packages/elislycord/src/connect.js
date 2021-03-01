@@ -59,9 +59,9 @@ module.exports = (async(options, callback) => {
     } else if(data.op === 0) {
       if(data.t === "READY") {
         client.set("user", data.d.user);
-        client.set("guildCount", data.d.guilds.length);
         privateStore.set("token", options.token);
       } else if(data.t === "GUILD_CREATE") {
+        if(!client.has("guildCount")) client.set("guildCount", 0);
         client.add("guildCount", 1);
       } else if(data.t === "GUILD_DELETE") {
         client.add("guildCount", -1);
