@@ -20,9 +20,11 @@ MongoClient.connect(settings.mongoURL, {
     for(let i = 0; i < filesLength; i++) {
       const file = files[i];
       const eventName = file.slice(0, -3);
+
       const event = require(`./events/${file}`);
       store.events.set(eventName, event);
-      require.cache[require.resolve(`./events/${file}`)];
+      delete require.cache[require.resolve(`./events/${file}`)];
+
       console.log(`${eventName} olayı tanımlandı.`);
     }
   });
@@ -34,9 +36,11 @@ MongoClient.connect(settings.mongoURL, {
     for(let i = 0; i < filesLength; i++) {
       const file = files[i];
       const commandName = file.slice(0, -3);
+
       const command = require(`./commands/${file}`);
       store.commands.set(commandName, command);
-      require.cache[require.resolve(`./commands/${file}`)];
+      delete require.cache[require.resolve(`./commands/${file}`)];
+
       console.log(`${commandName} komutu yüklendi.`);
     }
   });
