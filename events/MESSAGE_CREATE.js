@@ -28,7 +28,7 @@ module.exports = (async(client, db, payload) => {
 
   if(!guildData) {
     await guilds.insertOne({
-      "id": message.guild.id,
+      "id": payload.guild_id,
       "levelRanks": {},
       "moderatorRoles": [],
       "logChannel": null,
