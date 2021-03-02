@@ -46,7 +46,7 @@ module.exports = ({
       }
     }
 
-    if(contributors.some((contributor) => contributor.name !== "bmodb")) {
+    if(!contributors.some((contributor) => contributor.name === "bmodb")) {
       contributors.push({
         "name": "bmodb",
         "url": "https://github.com/bmodb"
