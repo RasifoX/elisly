@@ -8,6 +8,9 @@ const limitJoin = require("../methods/limitJoin.js");
 const packageData = require("../package.json");
 const settings = require("../settings.js");
 
+let contributors = [];
+let languages, repository;
+
 module.exports = ({
   enabled: true,
   aliases: ["hakkında", "bilgi", "i"],
@@ -18,35 +21,37 @@ module.exports = ({
   cooldown: 3,
   execute: (async(client, db, payload, args) => {
     const owner = await elislycord.request("GET", elislycord.routes.application()).then((application) => application.owner);
-
-    const contributors = [];
     const links = [];
-    let repository, languages;
 
     if(settings.githubRepository) {
-      repository = await fetch(`https://api.github.com/repos/${settings.githubRepository}`).then((result) => result.json());
-      languages = await fetch(`https://api.github.com/repos/${settings.githubRepository}/languages`).then((result) => result.json());
+      const altRepository = await fetch(`https://api.github.com/repos/${settings.githubRepository}`).then((result) => result.json());
+      const altLanguages = await fetch(`https://api.github.com/repos/${settings.githubRepository}/languages`).then((result) => result.json());
+      const altContributors = await fetch(`https://api.github.com/repos/${settings.githubRepository}/contributors`).then((result) => result.json());
 
-      const contributorsData = await fetch(`https://api.github.com/repos/${settings.githubRepository}/contributors`).then((result) => result.json());
+      if(altRepository.id) repository = altRepository;
+      if(Array.isArray(Object.values(altLanguages).filter((value) => !isNaN(value)))) languages = Object.keys(altLanguages);
+      if(Array.isArray(altContributors)) {
+        contributors = [];
 
-      if(Array.isArray(contributorsData)) {
-        for(let i = 0; i < contributorsData.length; i++) {
-          const contributor = contributorsData[i];
+        for(let i = 0; i < altContributors.length; i++) {
+          const contributor = altContributors[i];
 
           if(contributor.login !== repository.owner.login) {
             contributors.push({
-              name: contributor.login,
-              url: contributor.url
+              "name": contributor.login,
+              "url": contributor.url
             });
           }
         }
       }
     }
 
-    contributors.push({
-      name: "bmodb",
-      url: "https://github.com/bmodb"
-    });
+    if(contributors.some((contributor) => contributor.name !== "bmodb")) {
+      contributors.push({
+        "name": "bmodb",
+        "url": "https://github.com/bmodb"
+      });
+    }
 
     const embed = elislycord.createEmbed();
     embed.setThumbnail(elislycord.routes.avatar(client.get("user")));
@@ -57,7 +62,7 @@ module.exports = ({
 
     if(settings.githubRepository) {
       embed.addField("Son güncellenme tarihi", etime(repository.pushed_at));
-      embed.addField("Kullanılan yazılım dilleri", limitJoin(Object.keys(languages), " **|** ", 5));
+      embed.addField("Kullanılan yazılım dilleri", limitJoin(languages, " **|** ", 5));
     }
 
     embed.addField("Yazılım sürümleri", `node ${process.version}\nelislycord v${elislycord.version}`);
