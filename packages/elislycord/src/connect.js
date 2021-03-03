@@ -60,6 +60,7 @@ module.exports = (async(options, callback) => {
     } else if(data.op === 0) {
       if(data.t === "READY") {
         client.set("user", data.d.user);
+        client.set("readyAt", Date.now());
         privateStore.set("token", options.token);
       } else if(data.t === "GUILD_CREATE") {
         if(!client.has("guildCount")) client.set("guildCount", 0);
