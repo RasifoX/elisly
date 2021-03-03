@@ -9,8 +9,9 @@ module.exports = (async(client, db, payload) => {
   const users = db.collection("users");
   const userData = await users.findOne({id: payload.author.id});
 
-  const c = payload.content.slice(settings.prefix.length).split(" ")[0];
-  const args = payload.content.slice(settings.prefix.length).split(" ").slice(1);
+  const splittedContent = payload.content.slice(settings.prefix.length).split(" ").filter((arg) => arg !== "");
+  const c = splittedContent[0];
+  const args = splittedContent.slice(1);
 
   if(store.commands.has(c) || store.commands.some((commandData) => commandData.aliases.includes(c))) {
     const command = store.commands.has(c) ? store.commands.get(c) : store.commands.find((commandData) => commandData.aliases.includes(c));
@@ -20,7 +21,6 @@ module.exports = (async(client, db, payload) => {
     await users.updateOne({id: payload.author.id}, {$set: userData});
 
     try {
-      const botOwner = await elislycord.request("GET", elislycord.routes.application()).then((application) => application.owner);
       const stoppedByCooldown = await cooldownMiddleware(client, db, payload, command, commandName, args);
 
       if(!stoppedByCooldown) {
