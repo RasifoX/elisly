@@ -12,8 +12,6 @@ module.exports.toTurkish = ((timestamp) => {
 });
 
 module.exports.duration = ((timestamp) => {
-  timestamp = Date.now() - timestamp;
-
   let seconds = (timestamp - (timestamp % 1000)) / 1000;
   let minutes = (seconds - (seconds % 60)) / 60;
   let hours = (minutes - (minutes % 60)) / 60;
