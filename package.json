@@ -9,6 +9,7 @@
   "dependencies": {
     "canvas": "^2.6.1",
     "common-tags": "^1.8.0",
+    "erlpack": "^0.1.3",
     "fast-zlib": "^2.0.0",
     "file-type": "^16.2.0",
     "form-data": "^2.3.3",
