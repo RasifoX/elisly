@@ -5,8 +5,9 @@ module.exports = (async(options, callback) => {
   const WebSocket = require("ws");
   const os = require("os");
   const zlib = require("fast-zlib");
+  const erlpack = require("erlpack");
 
-  const ws = new WebSocket("wss://gateway.discord.gg/?v=6&encoding=json&compress=zlib-stream");
+  const ws = new WebSocket("wss://gateway.discord.gg/?v=6&encoding=etf&compress=zlib-stream");
 
   const inflator = new zlib.Inflate({
     "chunkSize": 65535
@@ -21,7 +22,7 @@ module.exports = (async(options, callback) => {
       const flush = (len > 4) && (data[len - 4] === 0x00) && (data[len - 3] === 0x00) && (data[len - 2] === 0xff) && (data[len - 1] === 0xff);
       data = inflator.process(data, flush && zlib.Z_SYNC_FLUSH);
       if(!flush) return;
-      data = JSON.parse(data.toString());
+      data = erlpack.unpack(Buffer.from(new Uint8Array(data)));
     }
 
 
@@ -29,7 +30,7 @@ module.exports = (async(options, callback) => {
     if(data.op === 10) {
       const heartbeatInterval = data.d.heartbeat_interval;
 
-      ws.send(JSON.stringify({
+      ws.send(erlpack.pack({
         "op": 2,
         "d": {
           "token": options.token,
@@ -49,7 +50,7 @@ module.exports = (async(options, callback) => {
       }));
 
       setInterval(async() => {
-        ws.send(JSON.stringify({
+        ws.send(erlpack.pack({
           "op": 1,
           "d": lastSequence
         }));
@@ -69,7 +70,7 @@ module.exports = (async(options, callback) => {
 
       await callback(data.t, data.d, client);
     } else if(data.op === 11) {
-      client.set("ping", Date.now() - sentAt);
+      client.set("ping", (Date.now() - sentAt));
     }
 
     lastSequence = data.s;
