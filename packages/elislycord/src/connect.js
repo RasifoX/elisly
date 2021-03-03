@@ -1,5 +1,6 @@
 const privateStore = require("./privateStore.js");
 const client = require("./client.js");
+const request = require("./request.js");
 
 module.exports = (async(options, callback) => {
   const WebSocket = require("ws");
@@ -59,6 +60,9 @@ module.exports = (async(options, callback) => {
       }, heartbeatInterval);
     } else if(data.op === 0) {
       if(data.t === "READY") {
+        const owner = await request("GET", elislycord.routes.application()).then((application) => application.owner);
+
+        client.set("owner", owner);
         client.set("user", data.d.user);
         client.set("readyAt", Date.now());
         privateStore.set("token", options.token);

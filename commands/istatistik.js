@@ -20,7 +20,7 @@ module.exports = ({
   fetch: [],
   cooldown: 3,
   execute: (async(client, db, payload, args) => {
-    const owner = await elislycord.request("GET", elislycord.routes.application()).then((application) => application.owner);
+    const owner = client.get("owner");
     const links = [];
 
     if(settings.githubRepository) {
