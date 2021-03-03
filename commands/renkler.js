@@ -5,8 +5,6 @@ const FileType = require("file-type");
 const Canvas = require("canvas");
 const {yiq} = require("yiq");
 
-const getMessageMentions = require("../methods/getMessageMentions.js");
-
 module.exports = ({
   enabled: true,
   aliases: ["renkler"],
@@ -16,7 +14,7 @@ module.exports = ({
   fetch: ["guild"],
   cooldown: 3,
   execute: (async(client, db, payload, args) => {
-    const messageMentions = await getMessageMentions(payload, args);
+    const messageMentions = await elislycord.getMessageMentions(payload, args);
     const user = messageMentions.users.size() === 1 ? messageMentions.users.byIndex(0) : payload.author;
 
     const avatarBuffer = await fetch(elislycord.routes.avatar(user).replace(".gif", ".png")).then((result) => result.buffer());

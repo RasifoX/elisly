@@ -1,6 +1,5 @@
 const commonTags = require("common-tags");
 const settings = require("../settings.js");
-const getMessageMentions = require("../methods/getMessageMentions.js");
 
 module.exports = ({
   enabled: false,

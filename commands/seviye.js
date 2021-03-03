@@ -3,7 +3,6 @@ const Canvas = require("canvas");
 const elislycord = require("../packages/elislycord");
 const settings = require("../settings.js");
 
-const getMessageMentions = require("../methods/getMessageMentions.js");
 const levelFormat = require("../methods/levelFormat.js");
 
 Canvas.registerFont("./public/uni-sans-heavy.ttf", {family: "Uni Sans Heavy"});
@@ -17,7 +16,7 @@ module.exports = ({
   fetch: [],
   cooldown: 2,
   execute: (async(client, db, payload, args) => {
-    const messageMentions = await getMessageMentions(payload, args);
+    const messageMentions = await elislycord.getMessageMentions(payload, args);
     const user = messageMentions.users.size() === 1 ? messageMentions.users.byIndex(0) : payload.author;
     const usersData = await db.collection("users").find({[`xp.${payload.guild_id}`]: {$exists: true}}).toArray();
 
