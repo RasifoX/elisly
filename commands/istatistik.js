@@ -61,7 +61,7 @@ module.exports = ({
     embed.addField("Sunucu sayısı", client.get("guildCount"));
 
     if(settings.githubRepository) {
-      embed.addField("Son güncellenme tarihi", etime(repository.pushed_at));
+      embed.addField("Son güncellenme tarihi", etime.toTurkish(repository.pushed_at));
       embed.addField("Kullanılan yazılım dilleri", limitJoin(languages, " **|** ", 5));
     }
 
@@ -79,6 +79,7 @@ module.exports = ({
       links.push(`[Destek sunucusu](https://discord.gg/${settings.supportServer})`);
     }
 
+    embed.addField("Açık kalma süresi", etime.duration(Date.now() - client.get("readyAt")));
     embed.addField("Linkler", links.join(" **|** "));
     embed.setColor(settings.color);
 

@@ -54,7 +54,7 @@ module.exports = ({
     embed.addField("ID", guild.id);
     embed.addField("Sahip", `<@!${guild.owner_id}>`);
     embed.addField("Boost sayısı / seviyesi", `${guild.premium_subscription_count || 0} **/** ${guild.premium_tier} seviye`);
-    embed.addField("Oluşturulma tarihi", etime(getTimestamp(guild.id) + (3 * 60 * 60 * 1000)));
+    embed.addField("Oluşturulma tarihi", etime.toTurkish(getTimestamp(guild.id) + (3 * 60 * 60 * 1000)));
     embed.addField("Aktif özellikler", guild.features.length !== 0 ? guild.features.map((feature) => features[feature]).join(" **|** ") : "Bulunmuyor");
     embed.addField("Konum", regions[guild.region]);
     embed.setColor(settings.color);
