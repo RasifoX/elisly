@@ -55,7 +55,7 @@ module.exports = (async(client, db, payload) => {
           }*/
         }
 
-        if(payload.author.id !== botOwner.id && !command.enabled) return;
+        if((payload.author.id !== client.get("owner").id) && !command.enabled) return;
 
         await command.execute(client, db, payload, args);
       }

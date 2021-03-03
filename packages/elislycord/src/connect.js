@@ -1,6 +1,7 @@
 const privateStore = require("./privateStore.js");
 const client = require("./client.js");
 const request = require("./request.js");
+const routes = require("./routes.js");
 
 module.exports = (async(options, callback) => {
   const WebSocket = require("ws");
@@ -14,8 +15,10 @@ module.exports = (async(options, callback) => {
     "chunkSize": 65535
   });
 
+
   let lastSequence = null;
   let sentAt;
+  privateStore.set("token", options.token);
 
   ws.on("message", async(data) => {
     {
@@ -60,12 +63,11 @@ module.exports = (async(options, callback) => {
       }, heartbeatInterval);
     } else if(data.op === 0) {
       if(data.t === "READY") {
-        const owner = await request("GET", elislycord.routes.application()).then((application) => application.owner);
+        const owner = await request("GET", routes.application()).then((application) => application.owner);
 
         client.set("owner", owner);
         client.set("user", data.d.user);
         client.set("readyAt", Date.now());
-        privateStore.set("token", options.token);
       } else if(data.t === "GUILD_CREATE") {
         if(!client.has("guildCount")) client.set("guildCount", 0);
         client.add("guildCount", 1);
