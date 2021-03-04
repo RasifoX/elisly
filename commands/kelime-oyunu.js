@@ -6,10 +6,10 @@ module.exports = ({
   aliases: ["kelimeoyunu"],
   description: "Kelime oyunu hakkında bilgi verir.",
   category: "eğlence",
-  permissions: ["MANAGE_CHANNELS"],
+  permissions: ["manageChannels"],
   fetch: [],
   cooldown: 4,
-  execute: (async(client, db, message, args) => {
+  execute: (async(client, db, message, guild, args) => {
     const messageMentions = await getMessageMentions(message, args);
 
     const guilds = db.collection("guilds");

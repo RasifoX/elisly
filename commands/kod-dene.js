@@ -7,14 +7,14 @@ const settings = require("../settings.js");
 const limitJoin = require("../methods/limitJoin.js");
 
 module.exports = ({
-  enabled: false,
+  enabled: true,
   aliases: ["eval"],
   description: "Kod denemeni sağlar.",
   category: "geliştirici",
-  permissions: ["BOT_OWNER"],
+  permissions: ["botOwner"],
   fetch: ["guild", "me", "member"],
   cooldown: 3,
-  execute: (async(client, db, payload, args) => {
+  execute: (async(client, db, payload, guild, args) => {
     if(args.length === 0) {
       await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
         "content": `<@!${payload.author.id}>, lütfen denemem için bir kod gir.`

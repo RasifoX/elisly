@@ -8,11 +8,10 @@ module.exports = ({
   aliases: ["sb", "sunucu-bilgi"],
   description: "O sunucu hakkında bilgi verir.",
   category: "bilgilendirme",
-  permissions: [],
+  permissions: ["manageGuild", "manageEmojis"],
   fetch: ["guild"],
   cooldown: 3,
-  execute: (async(client, db, payload, args) => {
-    const guild = await elislycord.request("GET", elislycord.routes.guild(payload.guild_id));
+  execute: (async(client, db, payload, guild, args) => {
     const features = ({
       ANIMATED_ICON: "Animasyonlu simge",
       BANNER: "Banner",

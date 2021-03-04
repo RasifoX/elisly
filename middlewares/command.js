@@ -6,6 +6,7 @@ const settings = require("../settings.js");
 module.exports = (async(client, db, payload) => {
   if(!payload.content.startsWith(settings.prefix)) return;
 
+  const guild = await elislycord.request("GET", elislycord.routes.guild(payload.guild_id));
   const users = db.collection("users");
   const userData = await users.findOne({id: payload.author.id});
 
@@ -25,39 +26,42 @@ module.exports = (async(client, db, payload) => {
 
       if(!stoppedByCooldown) {
         if(command.permissions) {
-          /*const permissions = ({
-            BOT_OWNER: "bot geliştiriciliği",
-            ADMINISTRATOR: "yönetici",
-            MANAGE_GUILD: "sunucuyu yönet",
-            MANAGE_MESSAGES: "mesajları yönet",
-            MANAGE_ROLES: "rolleri yönet",
-            MANAGE_CHANNELS: "kanalları yönet",
-            MANAGE_EMOJIS: "emojileri yönet",
-            GUILD_OWNER: "sunucu sahipliği"
+          const permissions = ({
+            "botOwner": "bot geliştiriciliği",
+            "administrator": "yönetici",
+            "manageGuild": "sunucuyu yönet",
+            "manageMessages": "mesajları yönet",
+            "manageRoles": "rolleri yönet",
+            "manageChannels": "kanalları yönet",
+            "manageEmojis": "emojileri yönet",
+            "guildOwner": "sunucu sahipliği"
           });
           const missingPermissions = [];
 
           for(let i = 0; i < command.permissions.length; i++) {
+            const userPermissions = await elislycord.calculateMemberPerms(payload.member, payload.guild_id);
             const permission = command.permissions[i];
 
-            if(permission === "BOT_OWNER" && payload.author.id !== botOwner.id) {
+            if(permission === "botOwner" && payload.author.id !== client.get("owner").id) {
               missingPermissions.push(permission);
-            } else if(permission === "GUILD_OWNER" && payload.author.id !== payload.guild.owner_id) {
+            } else if(permission === "guildOwner" && payload.author.id !== payload.guild.owner_id) {
               missingPermissions.push(permission);
-            } else if(!(["BOT_OWNER", "GUILD_OWNER"]).includes(permission) && !message.member.permissions.has(permission)) {
+            } else if(!(["botOwner", "guildOwner"]).includes(permission) && !userPermissions.includes(permission)) {
               missingPermissions.push(permission);
             }
           }
 
           if(missingPermissions.length !== 0) {
-            await message.reply(`bu komutu kullanmak için ${missingPermissions.map((permission) => permissions[permission]).join(", ")} yetki${missingPermissions.length === 1 ? "sine" : "lerine"} sahip olmalısın.`);
+            await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
+              "content": `<@!${payload.author.id}> bu komutu kullanmak için ${missingPermissions.map((permission) => permissions[permission]).join(", ")} yetki(leri/si)ne sahip olmalısın.`
+            });
             return;
-          }*/
+          }
         }
 
         if((payload.author.id !== client.get("owner").id) && !command.enabled) return;
 
-        await command.execute(client, db, payload, args);
+        await command.execute(client, db, payload, guild, args);
       }
     } catch(error) {
       await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {

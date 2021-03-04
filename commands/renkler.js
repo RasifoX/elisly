@@ -13,7 +13,7 @@ module.exports = ({
   permissions: [],
   fetch: ["guild"],
   cooldown: 3,
-  execute: (async(client, db, payload, args) => {
+  execute: (async(client, db, payload, guild, args) => {
     const messageMentions = await elislycord.getMessageMentions(payload, args);
     const user = messageMentions.users.size() === 1 ? messageMentions.users.byIndex(0) : payload.author;
 

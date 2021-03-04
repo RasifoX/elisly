@@ -19,7 +19,7 @@ module.exports = ({
   permissions: [],
   fetch: [],
   cooldown: 3,
-  execute: (async(client, db, payload, args) => {
+  execute: (async(client, db, payload, guild, args) => {
     const owner = client.get("owner");
     const links = [];
 

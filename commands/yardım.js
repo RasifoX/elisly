@@ -6,7 +6,7 @@ module.exports = ({
   permissions: [],
   fetch: ["me"],
   cooldown: 5,
-  execute: (async(client, db, message, args) => {
+  execute: (async(client, db, message, guild, args) => {
     const categories = ({
       genel: "Genel komutlar",
       bilgilendirme: "Bilgilendirme komutları",
