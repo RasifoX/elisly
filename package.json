@@ -4,7 +4,7 @@
   "description": "Elisly her sunucuya özel olarak tasarlanan güçlendirilmiş bir Discord botudur.",
   "main": "./app.js",
   "scripts": {
-    "start": "node ."
+    "start": "node . --experimental-json-modules"
   },
   "dependencies": {
     "canvas": "^2.6.1",
