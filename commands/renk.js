@@ -39,7 +39,17 @@ module.exports = ({
     let color;
 
     if(args[0].startsWith("#")) color = args[0];
-    else color = rgbToHex(...args.join(" ").split(" ").map((arg) => Number(arg.endsWith(",") ? arg.slice(0, -1) : arg)));
+    else {
+      if(args.length !== 1) args = [args.join("")];
+
+      if(args[0].split(",").length === 3) {
+        color = rgbToHex(...args[0].split(",").map((arg) => Number(arg)))
+      } else {
+        color = `#${args[0]}`;
+      }
+    }
+
+    console.log(color)
 
     const canvas = Canvas.createCanvas(300, 300);
     const ctx = canvas.getContext("2d");
