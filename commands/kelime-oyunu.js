@@ -2,14 +2,13 @@ const commonTags = require("common-tags");
 const settings = require("../settings.js");
 
 module.exports = ({
-  enabled: false,
-  aliases: ["kelimeoyunu"],
-  description: "Kelime oyunu hakkında bilgi verir.",
-  category: "eğlence",
-  permissions: ["manageChannels"],
-  fetch: [],
-  cooldown: 4,
-  execute: (async(client, db, message, guild, args) => {
+  "enabled": false,
+  "aliases": ["kelimeoyunu"],
+  "description": "Kelime oyunu hakkında bilgi verir.",
+  "category": "eğlence",
+  "permissions": ["manageChannels"],
+  "cooldown": 4,
+  "execute": (async(client, db, message, guild, args) => {
     const messageMentions = await getMessageMentions(message, args);
 
     const guilds = db.collection("guilds");

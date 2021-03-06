@@ -12,14 +12,13 @@ let contributors = [];
 let languages, repository;
 
 module.exports = ({
-  enabled: true,
-  aliases: ["hakkında", "bilgi", "i"],
-  description: "Bot hakkında bilgi verir.",
-  category: "bilgilendirme",
-  permissions: [],
-  fetch: [],
-  cooldown: 3,
-  execute: (async(client, db, payload, guild, args) => {
+  "enabled": true,
+  "aliases": ["hakkında", "bilgi", "i"],
+  "description": "Bot hakkında bilgi verir.",
+  "category": "bilgilendirme",
+  "permissions": [],
+  "cooldown": 3,
+  "execute": (async(client, db, payload, guild, args) => {
     const owner = client.get("owner");
     const links = [];
 
@@ -84,7 +83,7 @@ module.exports = ({
     embed.setColor(settings.color);
 
     await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
-      embed: embed.toJSON()
+      "embed": embed.toJSON()
     });
   })
 });

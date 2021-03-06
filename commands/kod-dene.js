@@ -7,14 +7,13 @@ const settings = require("../settings.js");
 const limitJoin = require("../methods/limitJoin.js");
 
 module.exports = ({
-  enabled: true,
-  aliases: ["eval"],
-  description: "Kod denemeni sağlar.",
-  category: "geliştirici",
-  permissions: ["botOwner"],
-  fetch: ["guild", "me", "member"],
-  cooldown: 3,
-  execute: (async(client, db, payload, guild, args) => {
+  "enabled": true,
+  "aliases": ["eval"],
+  "description": "Kod denemeni sağlar.",
+  "category": "geliştirici",
+  "permissions": ["botOwner"],
+  "cooldown": 3,
+  "execute": (async(client, db, payload, guild, args) => {
     if(args.length === 0) {
       await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
         "content": `<@!${payload.author.id}>, lütfen denemem için bir kod gir.`
@@ -33,8 +32,8 @@ module.exports = ({
 
       if(result !== null && typeof result === "object") {
         result = util.inspect(result, {
-          depth: 2,
-          getters: true
+          "depth": 2,
+          "getters": true
         });
       }
 

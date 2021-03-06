@@ -8,14 +8,13 @@ const levelFormat = require("../methods/levelFormat.js");
 Canvas.registerFont("./public/uni-sans-heavy.ttf", {family: "Uni Sans Heavy"});
 
 module.exports = ({
-  enabled: true,
-  aliases: [],
-  description: "O sunucuya ait seviyenizi gösterir.",
-  category: "seviye",
-  permissions: [],
-  fetch: [],
-  cooldown: 2,
-  execute: (async(client, db, payload, guild, args) => {
+  "enabled": true,
+  "aliases": [],
+  "description": "O sunucuya ait seviyenizi gösterir.",
+  "category": "seviye",
+  "permissions": [],
+  "cooldown": 2,
+  "execute": (async(client, db, payload, guild, args) => {
     const messageMentions = await elislycord.getMessageMentions(payload, args);
     const user = messageMentions.users.size() === 1 ? messageMentions.users.byIndex(0) : payload.author;
     const usersData = await db.collection("users").find({[`xp.${payload.guild_id}`]: {$exists: true}}).toArray();
@@ -74,9 +73,9 @@ module.exports = ({
     ctx.fillText(`GEREKEN ${levelData.needLevel - levelData.xp} XP`, 700, 350);
 
     await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
-      files: [{
-        name: "seviye.png",
-        blob: canvas.toBuffer()
+      "files": [{
+        "name": "seviye.png",
+        "blob": canvas.toBuffer()
       }]
     });
   })

@@ -2,13 +2,13 @@ const elislycord = require("../packages/elislycord");
 const Canvas = require("canvas");
 
 module.exports = ({
-  enabled: true,
-  aliases: [],
-  description: "Belirtilen renk hakkında detaylı bilgi verir.",
-  category: "araçlar",
-  permissions: [],
-  cooldown: 3,
-  execute: (async(client, db, payload, guild, args) => {
+  "enabled": true,
+  "aliases": [],
+  "description": "Belirtilen renk hakkında detaylı bilgi verir.",
+  "category": "araçlar",
+  "permissions": [],
+  "cooldown": 3,
+  "execute": (async(client, db, payload, guild, args) => {
     if(args.length === 0) {
       await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
         "content": `<@!${payload.author.id}> lütfen bir renk belirtin.`
@@ -56,8 +56,8 @@ module.exports = ({
     await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
       "embed": embed.toJSON(),
       "files": [{
-        name: "renk.png",
-        blob: canvas.toBuffer()
+        "name": "renk.png",
+        "blob": canvas.toBuffer()
       }]
     });
   })

@@ -6,14 +6,13 @@ const Canvas = require("canvas");
 const {yiq} = require("yiq");
 
 module.exports = ({
-  enabled: true,
-  aliases: [],
-  description: "Belirtilen kullanıcının profil resminin renklerini gösterir.",
-  category: "araçlar",
-  permissions: [],
-  fetch: ["guild"],
-  cooldown: 3,
-  execute: (async(client, db, payload, guild, args) => {
+  "enabled": true,
+  "aliases": [],
+  "description": "Belirtilen kullanıcının profil resminin renklerini gösterir.",
+  "category": "araçlar",
+  "permissions": [],
+  "cooldown": 3,
+  "execute": (async(client, db, payload, guild, args) => {
     const messageMentions = await elislycord.getMessageMentions(payload, args);
     const user = messageMentions.users.size() === 1 ? messageMentions.users.byIndex(0) : payload.author;
 
@@ -38,9 +37,9 @@ module.exports = ({
     }
 
     await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
-      files: [{
-        name: "renkler.png",
-        blob: canvas.toBuffer()
+      "files": [{
+        "name": "renkler.png",
+        "blob": canvas.toBuffer()
       }]
     });
   })

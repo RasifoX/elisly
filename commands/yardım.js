@@ -1,19 +1,18 @@
 module.exports = ({
-  enabled: false,
-  aliases: ["komutlar"],
-  description: "Botun komutlarını detaylı şekilde gösterir.",
-  category: "genel",
-  permissions: [],
-  fetch: ["me"],
-  cooldown: 5,
-  execute: (async(client, db, message, guild, args) => {
+  "enabled": false,
+  "aliases": ["komutlar"],
+  "description": "Botun komutlarını detaylı şekilde gösterir.",
+  "category": "genel",
+  "permissions": [],
+  "cooldown": 5,
+  "execute": (async(client, db, message, guild, args) => {
     const categories = ({
-      genel: "Genel komutlar",
-      bilgilendirme: "Bilgilendirme komutları",
-      seviye: "Seviye komutları",
-      eğlence: "Eğlence komutları",
-      geliştirici: "Geliştirici komutları",
-      araçlar: "Araç benzeri komutlar"
+      "genel": "Genel komutlar",
+      "bilgilendirme": "Bilgilendirme komutları",
+      "seviye": "Seviye komutları",
+      "eğlence": "Eğlence komutları",
+      "geliştirici": "Geliştirici komutları",
+      "araçlar": "Araç benzeri komutlar"
     });
 
     const commands = {};
