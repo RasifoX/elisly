@@ -19,4 +19,4 @@ Bot için yazılan kodlar bir bir commit şeklinde kayıt altında tutulmaktadı
 [@bmodb](https://github.com/bmodb) - tasarım
 
 ## Lisans
-Botun kodları [MIT lisansı](https://github.com/acarkh/elisly/blob/main/LICENSE) ile korunmaktadır. Herhangi bir kopyalanma durumunda lisans koşulları ihlal edilirse gerekli işlemler yapılacaktır.
+Bu projenin kodları [MIT lisansı](https://github.com/acarkh/elisly/blob/main/LICENSE) ile korunmaktadır. Herhangi bir kopyalanma durumunda lisans koşulları ihlal edilirse gerekli işlemler yapılacaktır.
