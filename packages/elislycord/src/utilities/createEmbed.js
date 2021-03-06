@@ -1,6 +1,6 @@
 module.exports = (() => {
   const result = {};
-  const data = {"author": {}, "fields": [], "thumbnail": {}};
+  const data = {"author": {}, "fields": [], "thumbnail": {}, "image": {}};
 
   result.addField = ((name, value, inline = false) => {
     const field = {};
@@ -52,9 +52,17 @@ module.exports = (() => {
     return result;
   });
 
-  result[Symbol.for("nodejs.util.inspect.custom")] = (() => {
-    return data;
+  result.setImage = ((url) => {
+    data.image.url = url !== null ? url.toString() : null;
+
+    return result;
   });
+
+  /*
+    result[Symbol.for("nodejs.util.inspect.custom")] = (() => {
+      return data;
+    });
+  */
 
   result.toJSON = (() => {
     return data;
