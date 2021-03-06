@@ -2,17 +2,19 @@ const FormData = require("form-data");
 const fetch = require("node-fetch");
 const privateStore = require("./privateStore.js");
 
-module.exports = (async(method, url, body = {}) => {
-  let data;
+const queue = [];
+let interval;
 
+module.exports = (async(method, url, body = {}) => {
+  console.log(interval)
   if(method === "GET") {
-    data = await fetch(`https://discord.com/api/v8${url}`, {
+    queue.push([`https://discord.com/api/v8${url}`, {
       method,
       "headers": {
         "Authorization": `Bot ${privateStore.get("token")}`,
         "Content-Type": "application/json"
       }
-    }).then((result) => result.json())
+    }]);
   } else if(method === "POST") {
     if(body.files) {
       const form = new FormData();
@@ -28,25 +30,39 @@ module.exports = (async(method, url, body = {}) => {
         form.append("payload_json", JSON.stringify(body));
       }
 
-      data = await fetch(`https://discord.com/api/v8${url}`, {
+      queue.push([`https://discord.com/api/v8${url}`, {
         method,
         "headers": {
           "Authorization": `Bot ${privateStore.get("token")}`,
           "Content-Type": form.getHeaders()["content-type"]
         },
         "body": form
-      }).then((result) => result.json());
+      }]);
     } else {
-      data = await fetch(`https://discord.com/api/v8${url}`, {
+      queue.push([`https://discord.com/api/v8${url}`, {
         method,
         "headers": {
           "Authorization": `Bot ${privateStore.get("token")}`,
           "Content-Type": "application/json"
         },
         "body": JSON.stringify(body)
-      }).then((result) => result.json());
+      }]);
     }
   }
 
-  return data;
+  return new Promise((resolve) => {
+    if(!interval) {
+      interval = setInterval(async() => {
+        if(queue.length !== 0) {
+          const requestData = queue.pop();
+          const data = await fetch(...requestData).then((result) => result.json());
+
+          resolve(data);
+        } else {
+          clearInterval(interval);
+          interval = undefined;
+        }
+      }, 100);
+    }
+  });
 });
