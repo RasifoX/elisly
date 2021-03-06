@@ -7,7 +7,7 @@ const {yiq} = require("yiq");
 
 module.exports = ({
   enabled: true,
-  aliases: ["renkler"],
+  aliases: [],
   description: "Belirtilen kullanıcının profil resminin renklerini gösterir.",
   category: "araçlar",
   permissions: [],
