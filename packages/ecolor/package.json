@@ -1,0 +1,21 @@
+{
+  "name": "ecolor",
+  "version": "1.0.0",
+  "description": "Elisly tarafından kullanılan renk ile ilgili işlemleri yapmayı sağlayan bir pakettir.",
+  "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acarkh/elisly.git"
+  },
+  "keywords": [
+    "elisly",
+    "discord",
+    "nodejs"
+  ],
+  "author": "acarkh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/acarkh/elisly/issues"
+  },
+  "homepage": "https://github.com/acarkh/elisly#readme"
+}

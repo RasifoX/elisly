@@ -1,4 +1,5 @@
 const elislycord = require("../packages/elislycord");
+const ecolor = require("../packages/ecolor");
 const Canvas = require("canvas");
 
 module.exports = ({
@@ -16,26 +17,6 @@ module.exports = ({
       return;
     }
 
-    const rgbToHex = ((r, g, b) => {
-      const componentToHex = ((c) => {
-        const hex = c.toString(16);
-        return hex.length === 1 ? "0" + hex : hex;
-      });
-
-      return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
-    });
-
-    const hexToRgb = ((hex) => {
-      const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-      hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-        return r + r + g + g + b + b;
-      });
-
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
-      return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : null;
-    });
-
     let color;
 
     if(args[0].startsWith("#")) color = args[0];
@@ -43,7 +24,7 @@ module.exports = ({
       if(args.length !== 1) args = [args.join("")];
 
       if(args[0].split(",").length === 3) {
-        color = rgbToHex(...args[0].split(",").map((arg) => Number(arg)))
+        color = ecolor.rgbToHex(...args[0].split(",").map((arg) => Number(arg)))
       } else {
         color = `#${args[0]}`;
       }
@@ -60,7 +41,7 @@ module.exports = ({
     const embed = elislycord.createEmbed();
     embed.setImage("attachment://renk.png");
     embed.addField("HEX değeri", color, true);
-    embed.addField("RGB değeri", `rgb(${hexToRgb(color).join(", ")})`, true);
+    embed.addField("RGB değeri", `rgb(${ecolor.hexToRgb(color).join(", ")})`, true);
     embed.setColor(Number(`0x${color.slice(1)}`));
 
     await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
