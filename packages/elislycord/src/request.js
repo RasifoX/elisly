@@ -49,15 +49,17 @@ module.exports = (async(method, url, body = {}) => {
   }
 
   return new Promise((resolve) => {
-    let data = await fetch(...request).then((res) => res.json());
+    (async() => {
+      let data = await fetch(...request).then((res) => res.json());
 
-    if(data.retry_after) {
-      setTimeout(async() => {
-        data = await fetch(...request).then((res) => res.json());
+      if(data.retry_after) {
+        setTimeout(async() => {
+          data = await fetch(...request).then((res) => res.json());
+          resolve(data);
+        }, data.retry_after);
+      } else {
         resolve(data);
-      }, data.retry_after);
-    } else {
-      resolve(data);
-    }
+      }
+    })();
   });
 });

@@ -1,7 +1,7 @@
 {
   "name": "elislycord",
   "version": "1.0.2",
-  "description": "Elisly tarafından kullanılan Discord API ile bağlanmayı sağlayan bir paketidir.",
+  "description": "Elisly tarafından kullanılan Discord API ile iletişim kurmayı sağlayan bir pakettir",
   "main": "./src/index.js",
   "repository": {
     "type": "git",

@@ -1,5 +1,5 @@
 # elislycord
-Elisly tarafından kullanılan Discord API ile bağlanmayı sağlayan bir paketidir.
+Elisly tarafından kullanılan Discord API ile iletişim kurmayı sağlayan bir pakettir.
 
 ## Özellikler
 + zlib ile sıkıştırmak
