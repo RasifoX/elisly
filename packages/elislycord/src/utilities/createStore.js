@@ -46,5 +46,17 @@ module.exports = (() => {
     return Object.values(store)[index];
   });
 
+  result.getAsObject = (() => {
+    return store;
+  });
+
+  result.keys = (() => {
+    return Object.keys(store);
+  });
+
+  result.values = (() => {
+    return Object.values(store);
+  });
+
   return result;
 });

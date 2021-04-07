@@ -28,7 +28,7 @@ module.exports = (() => {
 
   result.setAuthor = ((name, iconURL = null, url = null) => {
     data.author.name = name.toString();
-    data.author.icon_url = icon_url !== null ? icon_url.toString() : null;
+    data.author.icon_url = iconURL !== null ? iconURL.toString() : null;
     data.author.url = url !== null ? url.toString() : null;
 
     return result;
