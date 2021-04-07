@@ -30,6 +30,8 @@ module.exports = ({
         result = await Promise.resolve(result);
       }
 
+      const typeOfResult = typeof result;
+
       if(result !== null && typeof result === "object") {
         result = util.inspect(result, {
           "depth": 2,
@@ -42,7 +44,7 @@ module.exports = ({
       embed.setDescription(`${((executedAt[0] * 1000) + (executedAt[1] / 1e6)).toFixed(3)} milisaniyede çalıştırıldı.`);
       embed.addField("Kod", `\`\`\`javascript\n${limitJoin(args.join(" ").split(""), "", 1010)}\`\`\``);
       embed.addField("Sonuç", `\`\`\`javascript\n${limitJoin((`${result}`).split(""), "", 950)}\`\`\``);
-      embed.addField("Sonuç türü", `\`\`\`\n${typeof result}\`\`\``);
+      embed.addField("Sonuç türü", `\`\`\`\n${typeOfResult}\`\`\``);
       embed.setColor(settings.color);
 
       await elislycord.request("POST", elislycord.routes.sendMessage(payload.channel_id), {
